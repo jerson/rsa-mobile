@@ -10,8 +10,8 @@ fmt:
 	go fmt ./...
 
 android:
-	gomobile bind -ldflags="-w -s" -target=android -o openpgp.aar github.com/jerson/openpgp-mobile/mobile
+	gomobile bind -ldflags="-w -s" -target=android -o rsa.aar github.com/jerson/rsa-mobile/mobile
 
 
 ios:
-	gomobile bind -ldflags="-w -s" -target=ios -o openpgp.framework github.com/jerson/openpgp-mobile/mobile
+	gomobile bind -ldflags="-w -s" -target=ios -o rsa.framework github.com/jerson/rsa-mobile/mobile
