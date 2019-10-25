@@ -14,4 +14,4 @@ android:
 
 
 ios:
-	gomobile bind -ldflags="-w -s" -target=ios -o rsa.framework github.com/jerson/rsa-mobile/mobile
+	gomobile bind -ldflags="-w -s" -target=ios -o Rsa.framework github.com/jerson/rsa-mobile/mobile

@@ -1,8 +1,8 @@
 package rsa
 
-type RSA struct {
+type FastRSA struct {
 }
 
-func NewRSA() *RSA {
-	return &RSA{}
+func NewFastRSA() *FastRSA {
+	return &FastRSA{}
 }

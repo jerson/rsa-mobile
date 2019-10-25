@@ -66,7 +66,7 @@ var inputMessage = "hola mundo"
 
 func TestRSA_Complete(t *testing.T) {
 
-	instance := NewRSA()
+	instance := NewFastRSA()
 	input, err := instance.Encrypt(inputMessage, p12, passphrase)
 	if err != nil {
 		t.Fatal(err)
@@ -84,7 +84,7 @@ func TestRSA_Complete(t *testing.T) {
 
 func TestRSA_VerifyAndSign(t *testing.T) {
 
-	instance := NewRSA()
+	instance := NewFastRSA()
 	hash, err := instance.Hash(inputMessage, "sha512")
 	if err != nil {
 		t.Fatal(err)

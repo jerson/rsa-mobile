@@ -12,7 +12,7 @@ type KeyPair struct {
 	PrivateKey string
 }
 
-func (r *RSA) Generate(nBits int) (*KeyPair, error) {
+func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 
 	var keyPair *KeyPair
 	key, err := rsa.GenerateKey(rand.Reader, nBits)

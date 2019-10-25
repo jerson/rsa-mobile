@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-func (r *RSA) Verify(signature, hash, hashName, pkcs12, passphrase string) (bool, error) {
+func (r *FastRSA) Verify(signature, hash, hashName, pkcs12, passphrase string) (bool, error) {
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {
 		return false, err

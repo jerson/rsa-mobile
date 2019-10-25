@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 )
 
-func (r *RSA) Sign(hash, hashName, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) Sign(hash, hashName, pkcs12, passphrase string) (string, error) {
 
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {

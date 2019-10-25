@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 )
 
-func (r *RSA) Encrypt(message, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) Encrypt(message, pkcs12, passphrase string) (string, error) {
 
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {

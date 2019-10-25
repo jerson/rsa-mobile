@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func (r *RSA) Hash(message, name string) (string, error) {
+func (r *FastRSA) Hash(message, name string) (string, error) {
 
 	hash := getHashInstance(name)
 	_, err := io.WriteString(hash, message)
@@ -17,6 +17,6 @@ func (r *RSA) Hash(message, name string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-func (r *RSA) Base64(message, name string) (string, error) {
+func (r *FastRSA) Base64(message, name string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(message)), nil
 }

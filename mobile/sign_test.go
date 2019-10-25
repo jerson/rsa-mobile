@@ -4,7 +4,7 @@ import "testing"
 
 func TestRSA_Sign(t *testing.T) {
 
-	instance := NewRSA()
+	instance := NewFastRSA()
 	hash, err := instance.Hash(inputMessage, "sha512")
 	if err != nil {
 		t.Fatal(err)

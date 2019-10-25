@@ -9,14 +9,10 @@ import (
 	"crypto/sha512"
 	"crypto/x509"
 	"encoding/base64"
-	"golang.org/x/crypto/pkcs12"
 	"hash"
-)
 
-type KeyOptions struct {
-	Hash    string
-	RSABits int
-}
+	"golang.org/x/crypto/pkcs12"
+)
 
 func hashTo(hash string) crypto.Hash {
 	switch hash {
@@ -56,7 +52,7 @@ func getHashInstance(name string) hash.Hash {
 	}
 }
 
-func (r *RSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Certificate, error) {
+func (r *FastRSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Certificate, error) {
 
 	decoded, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {

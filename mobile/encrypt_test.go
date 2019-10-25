@@ -4,7 +4,7 @@ import "testing"
 
 func TestRSA_Encrypt(t *testing.T) {
 
-	instance := NewRSA()
+	instance := NewFastRSA()
 	output, err := instance.Encrypt(inputMessage, p12, passphrase)
 	if err != nil {
 		t.Fatal(err)
