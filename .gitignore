@@ -1,0 +1,7 @@
+.idea
+*.aar
+*.framework
+*.jar
+*.zip
+.DS_Store
+vendor/

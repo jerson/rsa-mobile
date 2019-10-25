@@ -1,0 +1,101 @@
+package rsa
+
+import (
+	"errors"
+	"testing"
+)
+
+var message = `XKaAi405Op5pqKaXcpso8lm57JJJn2ZrKd35zPFU80bYGVy9wgP8TQMS90pfYl/VhgyK9rvDuVX4ynqyQB4Dgto/0HNGK5qZx+NRWMBSQrV0c+XfZT2PgHihhmgV0KQtBLpLdF993AU5bWQp/LYG88Thl/3NK4Svabq7rP31lChyqPZvZCHROYmHxWYPsZ+C6+TV7jVxSDvZF0flHm8+kz1a37FN+SiWzSAMK+HwuJokwTkVA4IEi/vpLNQH05bdG+iRPvKc4+UTub5mZT3o/p8zABmw7HIzWZeyt+4XkzjGBguL/TqoKr0rf76rg2Er3TUPXMrxG7JXwMNsr6PZZg==`
+
+var p12 = `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
+AQ==`
+
+var signed = `ndXntEs7or5aq7R4esxdLZgzQJux2wjAovi5eczPW4uzgSPrVwrLHTuAyn3mIW8Ae2rY3PA6bJmt1SLLUMoVRWuyxEVzAqavD0NAsA4S2Z8awRqEgyu2Z1uc7o1d7ute2HTJqPv66vNf83dHvgG9LQkD/5S5DpjohOC75j5gyZpPWyWiAlyN7BWim7ikXM4kHBvNgLTnz2tT4kNzJYtqglkLZNU6iz4sHG1RCYvJ0h767WxCZeMNudWlIraly09KyhNfMp6ua6NR9Xuck7i70L5UyNnB0IovuynFdBdgoowuIlV0DqkHmT5ROpa9Lc1Q77JdJctUyKE/W8HOBDfB9A==`
+
+var passphrase = "123456"
+var inputMessage = "hola mundo"
+
+func TestRSA_Complete(t *testing.T) {
+
+	instance := NewRSA()
+	input, err := instance.Encrypt(inputMessage, p12, passphrase)
+	if err != nil {
+		t.Fatal(err)
+	}
+	output, err := instance.Decrypt(input, p12, passphrase)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log("output:", output)
+
+	if output != inputMessage {
+		t.Fatal(errors.New("fail"))
+	}
+}
+
+func TestRSA_VerifyAndSign(t *testing.T) {
+
+	instance := NewRSA()
+	hash, err := instance.Hash(inputMessage, "sha512")
+	if err != nil {
+		t.Fatal(err)
+	}
+	input, err := instance.Sign(hash, "sha512", p12, passphrase)
+	if err != nil {
+		t.Fatal(err)
+	}
+	output, err := instance.Verify(input, hash, "sha512", p12, passphrase)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log("output:", output)
+}
