@@ -17,6 +17,6 @@ func (r *FastRSA) Hash(message, name string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-func (r *FastRSA) Base64(message, name string) (string, error) {
+func (r *FastRSA) Base64(message string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(message)), nil
 }
