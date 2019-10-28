@@ -2,7 +2,7 @@ package rsa
 
 import "testing"
 
-func TestRSA_SHA1(t *testing.T) {
+func TestFastRSA_SHA1(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "sha1")
@@ -13,7 +13,7 @@ func TestRSA_SHA1(t *testing.T) {
 	t.Log("sha1:", output)
 }
 
-func TestRSA_MD5(t *testing.T) {
+func TestFastRSA_MD5(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "md5")
@@ -24,7 +24,7 @@ func TestRSA_MD5(t *testing.T) {
 	t.Log("md5:", output)
 }
 
-func TestRSA_SHA224(t *testing.T) {
+func TestFastRSA_SHA224(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "sha224")
@@ -35,7 +35,7 @@ func TestRSA_SHA224(t *testing.T) {
 	t.Log("sha224:", output)
 }
 
-func TestRSA_SHA256(t *testing.T) {
+func TestFastRSA_SHA256(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "sha256")
@@ -46,7 +46,7 @@ func TestRSA_SHA256(t *testing.T) {
 	t.Log("sha256:", output)
 }
 
-func TestRSA_SHA384(t *testing.T) {
+func TestFastRSA_SHA384(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "sha384")
@@ -57,7 +57,7 @@ func TestRSA_SHA384(t *testing.T) {
 	t.Log("sha384:", output)
 }
 
-func TestRSA_SHA512(t *testing.T) {
+func TestFastRSA_SHA512(t *testing.T) {
 
 	instance := NewFastRSA()
 	output, err := instance.Hash(inputMessage, "sha512")

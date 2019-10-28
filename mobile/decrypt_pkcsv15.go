@@ -6,17 +6,17 @@ import (
 	"encoding/base64"
 )
 
-func (r *FastRSA) Decrypt(message, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) DecryptPKCS1v15(ciphertext, pkcs12, passphrase string) (string, error) {
 
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {
 		return "", err
 	}
-	messageDecoded, err := base64.StdEncoding.DecodeString(message)
+	ciphertextDecoded, err := base64.StdEncoding.DecodeString(ciphertext)
 	if err != nil {
 		return "", err
 	}
-	output, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, messageDecoded)
+	output, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, ciphertextDecoded)
 	if err != nil {
 		return "", err
 	}

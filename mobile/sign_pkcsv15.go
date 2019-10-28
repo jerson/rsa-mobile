@@ -4,22 +4,23 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"encoding/base64"
-	"encoding/hex"
+	"io"
 )
 
-func (r *FastRSA) Sign(hash, hashName, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) SignPKCS1v15(message, hashName, pkcs12, passphrase string) (string, error) {
 
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {
 		return "", err
 	}
 
-	hashType := hashTo(hashName)
-	hashBytes, err := hex.DecodeString(hash)
+	hash := getHashInstance(hashName)
+	_, err = io.WriteString(hash, message)
 	if err != nil {
 		return "", err
 	}
-	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, hashType, hashBytes)
+
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, hashTo(hashName), hash.Sum(nil))
 	if err != nil {
 		return "", err
 	}

@@ -2,10 +2,10 @@ package rsa
 
 import "testing"
 
-func TestRSA_Decrypt(t *testing.T) {
+func TestFastRSA_DecryptPKCS1v15(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.Decrypt(message, p12, passphrase)
+	output, err := instance.DecryptPKCS1v15(ciphertext, p12, passphrase)
 	if err != nil {
 		t.Fatal(err)
 	}

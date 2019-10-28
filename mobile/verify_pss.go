@@ -3,10 +3,10 @@ package rsa
 import (
 	"crypto/rsa"
 	"encoding/base64"
-	"encoding/hex"
+	"io"
 )
 
-func (r *FastRSA) Verify(signature, hash, hashName, pkcs12, passphrase string) (bool, error) {
+func (r *FastRSA) VerifyPSS(signature, message, hashName, pkcs12, passphrase string) (bool, error) {
 	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
 	if err != nil {
 		return false, err
@@ -16,13 +16,14 @@ func (r *FastRSA) Verify(signature, hash, hashName, pkcs12, passphrase string) (
 	if err != nil {
 		return false, err
 	}
-	hashBytes, err := hex.DecodeString(hash)
+
+	hash := getHashInstance(hashName)
+	_, err = io.WriteString(hash, message)
 	if err != nil {
 		return false, err
 	}
-	hashType := hashTo(hashName)
 
-	err = rsa.VerifyPKCS1v15(&privateKey.PublicKey, hashType, hashBytes, signatureBytes)
+	err = rsa.VerifyPSS(&privateKey.PublicKey, hashTo(hashName), hash.Sum(nil), signatureBytes, nil)
 	if err != nil {
 		return false, err
 	}
