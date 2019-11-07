@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestOpenPGP_Generate1024(t *testing.T) {
+func TestFastRSA_Generate1024(t *testing.T) {
 
 	openPGP := NewFastRSA()
 	output, err := openPGP.Generate(1024)
@@ -14,7 +14,7 @@ func TestOpenPGP_Generate1024(t *testing.T) {
 
 	t.Log("output:", output)
 }
-func TestOpenPGP_Generate2048(t *testing.T) {
+func TestFastRSA_Generate2048(t *testing.T) {
 
 	openPGP := NewFastRSA()
 	output, err := openPGP.Generate(2048)
@@ -24,7 +24,7 @@ func TestOpenPGP_Generate2048(t *testing.T) {
 
 	t.Log("output:", output)
 }
-func TestOpenPGP_Generate4096(t *testing.T) {
+func TestFastRSA_Generate4096(t *testing.T) {
 
 	openPGP := NewFastRSA()
 	output, err := openPGP.Generate(4096)
