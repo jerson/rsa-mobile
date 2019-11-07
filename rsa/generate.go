@@ -2,9 +2,9 @@ package rsa
 
 import (
 	"crypto/rand"
-	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"github.com/keybase/go-crypto/rsa"
 )
 
 type KeyPair struct {
@@ -19,21 +19,23 @@ func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 	if err != nil {
 		return keyPair, err
 	}
+
+	keybaseRSA := toCryptoRSA(key)
 	privateKey := pem.EncodeToMemory(
 		&pem.Block{
 			Type:  "RSA PRIVATE KEY",
-			Bytes: x509.MarshalPKCS1PrivateKey(key),
+			Bytes: x509.MarshalPKCS1PrivateKey(keybaseRSA),
 		},
 	)
 	publicKey := pem.EncodeToMemory(
 		&pem.Block{
 			Type:  "PUBLIC KEY",
-			Bytes: x509.MarshalPKCS1PublicKey(&key.PublicKey),
+			Bytes: x509.MarshalPKCS1PublicKey(&keybaseRSA.PublicKey),
 		},
 	)
 	keyPair = &KeyPair{
-		PublicKey:  string(privateKey),
-		PrivateKey: string(publicKey),
+		PublicKey:  string(publicKey),
+		PrivateKey: string(privateKey),
 	}
 
 	return keyPair, nil

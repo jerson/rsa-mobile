@@ -1,8 +1,8 @@
 package rsa
 
 import (
-	"crypto/rsa"
 	"encoding/base64"
+	"github.com/keybase/go-crypto/rsa"
 	"io"
 )
 
@@ -23,7 +23,10 @@ func (r *FastRSA) VerifyPSS(signature, message, hashName, pkcs12, passphrase str
 		return false, err
 	}
 
-	err = rsa.VerifyPSS(&privateKey.PublicKey, hashTo(hashName), hash.Sum(nil), signatureBytes, nil)
+	err = rsa.VerifyPSS(&privateKey.PublicKey, hashTo(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
+		SaltLength: rsa.PSSSaltLengthEqualsHash,
+		Hash:       hashTo(hashName),
+	})
 	if err != nil {
 		return false, err
 	}

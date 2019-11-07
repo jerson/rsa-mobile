@@ -2,8 +2,8 @@ package rsa
 
 import (
 	"crypto/rand"
-	"crypto/rsa"
 	"encoding/base64"
+	"github.com/keybase/go-crypto/rsa"
 )
 
 func (r *FastRSA) DecryptPKCS1v15(ciphertext, pkcs12, passphrase string) (string, error) {
