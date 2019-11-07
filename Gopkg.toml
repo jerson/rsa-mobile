@@ -1,4 +1,9 @@
 
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/keybase/go-crypto"
+
 [[constraint]]
   branch = "master"
   name = "golang.org/x/crypto"

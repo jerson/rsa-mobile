@@ -2,9 +2,10 @@ package rsa
 
 import (
 	"crypto/rand"
-	"crypto/rsa"
 	"encoding/base64"
 	"io"
+
+	"github.com/keybase/go-crypto/rsa"
 )
 
 func (r *FastRSA) SignPSS(message, hashName, pkcs12, passphrase string) (string, error) {
@@ -20,7 +21,10 @@ func (r *FastRSA) SignPSS(message, hashName, pkcs12, passphrase string) (string,
 		return "", err
 	}
 
-	signature, err := rsa.SignPSS(rand.Reader, privateKey, hashTo(hashName), hash.Sum(nil), nil)
+	signature, err := rsa.SignPSS(rand.Reader, privateKey, hashTo(hashName), hash.Sum(nil), &rsa.PSSOptions{
+		SaltLength: rsa.PSSSaltLengthEqualsHash,
+		Hash:       hashTo(hashName),
+	})
 	if err != nil {
 		return "", err
 	}

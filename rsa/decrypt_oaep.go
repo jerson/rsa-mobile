@@ -2,8 +2,8 @@ package rsa
 
 import (
 	"crypto/rand"
-	"crypto/rsa"
 	"encoding/base64"
+	"github.com/keybase/go-crypto/rsa"
 )
 
 func (r *FastRSA) DecryptOAEP(ciphertext, label, hashName, pkcs12, passphrase string) (string, error) {

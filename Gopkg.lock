@@ -3,18 +3,22 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:994c4915a59f821705d08ea77b117ec7a3e6a46cc867fd194d887500dac1c3c2"
-  name = "golang.org/x/crypto"
+  digest = "1:5d652dca08a70e7aa5cc421f7922e3929c4b730936a203183175f3f0cd8f4af1"
+  name = "github.com/keybase/go-crypto"
   packages = [
     "pkcs12",
     "pkcs12/internal/rc2",
+    "rsa",
   ]
   pruneopts = "UT"
-  revision = "87dc89f01550277dc22b74ffcf4cd89fa2f40f4c"
+  revision = "a054578053044161085030449d77f6ceee2cc31a"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["golang.org/x/crypto/pkcs12"]
+  input-imports = [
+    "github.com/keybase/go-crypto/pkcs12",
+    "github.com/keybase/go-crypto/rsa",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
