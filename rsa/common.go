@@ -57,16 +57,16 @@ func getHashInstance(name string) hash.Hash {
 func toCryptoRSA(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 
 	var crtValues []cryptoRSA.CRTValue
-	for _,value:= range keybasePrivateKey.Precomputed.CRTValues{
-		crtValues = append(crtValues,cryptoRSA.CRTValue{
+	for _, value := range keybasePrivateKey.Precomputed.CRTValues {
+		crtValues = append(crtValues, cryptoRSA.CRTValue{
 			Exp:   value.Exp,
-			Coeff:  value.Coeff,
-			R:      value.R,
+			Coeff: value.Coeff,
+			R:     value.R,
 		})
 	}
 
 	privateKey := &cryptoRSA.PrivateKey{
-		PublicKey:   cryptoRSA.PublicKey{
+		PublicKey: cryptoRSA.PublicKey{
 			N: keybasePrivateKey.PublicKey.N,
 			E: int(keybasePrivateKey.PublicKey.E),
 		},
@@ -85,21 +85,21 @@ func toCryptoRSA(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 func toKeyBaseRSA(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
 
 	var crtValues []rsa.CRTValue
-	for _,value:= range cryptoPrivateKey.Precomputed.CRTValues{
-		crtValues = append(crtValues,rsa.CRTValue{
+	for _, value := range cryptoPrivateKey.Precomputed.CRTValues {
+		crtValues = append(crtValues, rsa.CRTValue{
 			Exp:   value.Exp,
-			Coeff:  value.Coeff,
-			R:      value.R,
+			Coeff: value.Coeff,
+			R:     value.R,
 		})
 	}
 
 	privateKey := &rsa.PrivateKey{
-		PublicKey:   rsa.PublicKey{
+		PublicKey: rsa.PublicKey{
 			N: cryptoPrivateKey.PublicKey.N,
 			E: int64(cryptoPrivateKey.PublicKey.E),
 		},
-		D:           cryptoPrivateKey.D,
-		Primes:      cryptoPrivateKey.Primes,
+		D:      cryptoPrivateKey.D,
+		Primes: cryptoPrivateKey.Primes,
 		Precomputed: rsa.PrecomputedValues{
 			Dp:        cryptoPrivateKey.Precomputed.Dp,
 			Dq:        cryptoPrivateKey.Precomputed.Dq,
@@ -122,7 +122,7 @@ func (r *FastRSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Ce
 	}
 
 	privateKey := toKeyBaseRSA(private.(*cryptoRSA.PrivateKey))
-	if err :=privateKey.Validate(); err != nil {
+	if err := privateKey.Validate(); err != nil {
 		return privateKey, certificate, err
 	}
 
