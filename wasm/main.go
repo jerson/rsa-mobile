@@ -3,6 +3,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/jerson/rsa-mobile/rsa"
 	"syscall/js"
 )
@@ -11,7 +12,15 @@ var instance = rsa.NewFastRSA()
 
 func Promise(i []js.Value, fn func() (result interface{}, err error)) interface{} {
 
+	if len(i) < 1 {
+		println(errors.New("required at least one argument").Error())
+		return nil
+	}
 	callback := i[len(i)-1:][0]
+	if callback.Type() != js.TypeFunction {
+		println(errors.New("last argument should be a callback(err,result)").Error())
+		return nil
+	}
 	go func() {
 		result, err := fn()
 		if err != nil {
