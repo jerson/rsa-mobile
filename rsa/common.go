@@ -11,8 +11,6 @@ import (
 	"encoding/base64"
 	"github.com/keybase/go-crypto/pkcs12"
 	"github.com/keybase/go-crypto/rsa"
-
-	//"github.com/keybase/go-crypto/rsa"
 	"hash"
 )
 

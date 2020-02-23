@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        let mod, inst;
+        WebAssembly.instantiateStreaming(fetch("rsa.wasm"), go.importObject).then(
+            async result => {
+                mod = result.module;
+                inst = result.instance;
+                await go.run(inst);
+            }
+        );
+    </script>
+</head>
+<body>
+<button onClick="add(2,3);" id="addButton">Add</button>
+<button onClick="subtract(10,3);" id="subtractButton">Subtract</button>
+
+</body>
+</html>

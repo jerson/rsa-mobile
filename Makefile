@@ -1,9 +1,7 @@
-
-
 default: fmt test
 
 deps: 
-	dep ensure -vendor-only
+	go mod download
 
 test:
 	go test ./...
@@ -11,7 +9,13 @@ test:
 fmt:
 	go fmt ./...
 
-all: binding android ios
+all: binding android ios wasm
+
+.PHONY: wasm
+wasm:
+	mkdir -p output/wasm
+	GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o output/wasm/rsa.wasm wasm/main.go
+	cp output/wasm/rsa.wasm wasm/sample/public/rsa.wasm
 
 binding: deps
 	mkdir -p output/binding
