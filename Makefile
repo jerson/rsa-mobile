@@ -9,11 +9,17 @@ test:
 fmt:
 	go fmt ./...
 
-all: binding android ios wasm
+clean:
+	rm -rf output
+
+all: clean binding android ios wasm
 
 gomobile:
 	go get golang.org/x/mobile/cmd/gomobile
 	gomobile init
+
+xgo:
+	go get github.com/karalabe/xgo
 
 .PHONY: wasm
 wasm:
@@ -23,7 +29,7 @@ wasm:
 
 binding: deps
 	mkdir -p output/binding
-	go build -ldflags="-s -w" -o output/binding/rsa.so -buildmode=c-shared binding/main.go
+	go build -ldflags="-w" -o output/binding/rsa.dylib -buildmode=c-shared binding/main.go
 
 android: deps
 	mkdir -p output/android

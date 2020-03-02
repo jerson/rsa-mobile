@@ -4,8 +4,9 @@ package main
 
 import (
 	"errors"
-	"github.com/jerson/rsa-mobile/rsa"
 	"syscall/js"
+
+	"github.com/jerson/rsa-mobile/rsa"
 )
 
 var instance = rsa.NewFastRSA()
