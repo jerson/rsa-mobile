@@ -1,7 +1,6 @@
 package main
 
-
-// #include <module.gcc>
+//// #include <module.gcc>
 import "C"
 import (
 	"github.com/jerson/rsa-mobile/rsa"
@@ -9,11 +8,16 @@ import (
 
 var instance = rsa.NewFastRSA()
 
+func errorThrow(err error) {
+	println(err.Error())
+	// C.errorThrow(C.CString(err.Error()))
+}
+
 //export DecryptOAEP
 func DecryptOAEP(ciphertext, label, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.DecryptOAEP(C.GoString(ciphertext), C.GoString(label), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -23,7 +27,7 @@ func DecryptOAEP(ciphertext, label, hashName, pkcs12, passphrase *C.char) *C.cha
 func DecryptPKCS1v15(ciphertext, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.DecryptPKCS1v15(C.GoString(ciphertext), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -33,7 +37,7 @@ func DecryptPKCS1v15(ciphertext, pkcs12, passphrase *C.char) *C.char {
 func EncryptOAEP(message, label, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.EncryptOAEP(C.GoString(message), C.GoString(label), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -43,7 +47,7 @@ func EncryptOAEP(message, label, hashName, pkcs12, passphrase *C.char) *C.char {
 func EncryptPKCS1v15(message, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.EncryptPKCS1v15(C.GoString(message), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -53,7 +57,7 @@ func EncryptPKCS1v15(message, pkcs12, passphrase *C.char) *C.char {
 func Generate(nBits int) map[*C.char]*C.char {
 	result, err := instance.Generate(nBits)
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return map[*C.char]*C.char{
@@ -66,7 +70,7 @@ func Generate(nBits int) map[*C.char]*C.char {
 func Hash(message, name *C.char) *C.char {
 	result, err := instance.Hash(C.GoString(message), C.GoString(name))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -76,7 +80,7 @@ func Hash(message, name *C.char) *C.char {
 func Base64(message *C.char) *C.char {
 	result, err := instance.Base64(C.GoString(message))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -86,7 +90,7 @@ func Base64(message *C.char) *C.char {
 func SignPKCS1v15(message, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.SignPKCS1v15(C.GoString(message), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -96,7 +100,7 @@ func SignPKCS1v15(message, hashName, pkcs12, passphrase *C.char) *C.char {
 func SignPSS(message, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.SignPSS(C.GoString(message), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	return C.CString(result)
@@ -106,7 +110,7 @@ func SignPSS(message, hashName, pkcs12, passphrase *C.char) *C.char {
 func VerifyPKCS1v15(signature, message, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.VerifyPKCS1v15(C.GoString(signature), C.GoString(message), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	if result {
@@ -119,7 +123,7 @@ func VerifyPKCS1v15(signature, message, hashName, pkcs12, passphrase *C.char) *C
 func VerifyPSS(signature, message, hashName, pkcs12, passphrase *C.char) *C.char {
 	result, err := instance.VerifyPSS(C.GoString(signature), C.GoString(message), C.GoString(hashName), C.GoString(pkcs12), C.GoString(passphrase))
 	if err != nil {
-		C.errorThrow(C.CString(err.Error()))
+		errorThrow(err)
 		return nil
 	}
 	if result {
