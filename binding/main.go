@@ -1,14 +1,8 @@
 package main
 
 /*
-#include <dummy.cc>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-
-void error(char *message) {
-   throw message;
-}
+#cgo LDFLAGS: -lstdc++
+#include <methods.cpp>
 */
 import "C"
 import (
