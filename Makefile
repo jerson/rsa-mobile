@@ -29,11 +29,11 @@ wasm:
 
 binding: deps
 	mkdir -p output/binding
-	go build -o output/binding/rsa.so -buildmode=c-shared binding/main.go
+	go build -ldflags="-w" -x -o output/binding/rsa.so -buildmode=c-shared binding/main.go
 
 archive: deps
 	mkdir -p output/archive
-	go build -o output/archive/rsa.a -buildmode=c-archive binding/main.go
+	go build -ldflags="-w" -x -o output/archive/rsa.a -buildmode=c-archive binding/main.go
 
 android: deps
 	mkdir -p output/android

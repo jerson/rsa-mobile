@@ -1,9 +1,8 @@
 package main
 
-/*
-#cgo LDFLAGS: -lstdc++
-#include <methods.cpp>
-*/
+
+// #cgo LDFLAGS: -lstdc++
+// #include <methods.cc>
 import "C"
 import (
 	"github.com/jerson/rsa-mobile/rsa"
