@@ -1,6 +1,7 @@
 package main
 
 /*
+#include <dummy.cc>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
