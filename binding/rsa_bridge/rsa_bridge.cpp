@@ -5,7 +5,7 @@ KeyPair *buildKeyPair(char * publicKey,char * privateKey)
 {
   KeyPair *keyPair;
   keyPair->publicKey = publicKey;
-  keyPair->publicKey = privateKey;
+  keyPair->privateKey = privateKey;
   return keyPair;
 }
 
