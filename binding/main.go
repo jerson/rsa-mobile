@@ -59,10 +59,10 @@ func Generate(nBits int) C.uintptr_t {
 	result, err := instance.Generate(nBits)
 	if err != nil {
 		errorThrow(err)
-		return  C.uintptr_t(rsa_bridge.BuildKeyPair("","").Swigcptr())
+		return C.uintptr_t(rsa_bridge.BuildKeyPair("", "").Swigcptr())
 	}
 	//return C.buildKeyPair(C.CString(result.PublicKey), C.CString(result.PrivateKey))
-	return C.uintptr_t(rsa_bridge.BuildKeyPair(result.PublicKey,result.PrivateKey).Swigcptr())
+	return C.uintptr_t(rsa_bridge.BuildKeyPair(result.PublicKey, result.PrivateKey).Swigcptr())
 
 }
 
