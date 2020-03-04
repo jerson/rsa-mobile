@@ -1,5 +1,5 @@
-#ifndef RSA_MOBILE_H
-#define RSA_MOBILE_H
+#ifndef RSA_BRIDGE_H
+#define RSA_BRIDGE_H
 
 #include <iostream>
 #include <vector>

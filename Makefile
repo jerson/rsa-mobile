@@ -30,11 +30,11 @@ wasm:
 swig:
 	swig -go -cgo -c++ -intgosize 64 binding/rsa_bridge/rsa_bridge.i
 
-binding: deps
+binding: deps swig
 	mkdir -p output/binding
 	go build -ldflags="-w" -o output/binding/rsa.so -buildmode=c-shared binding/main.go
 
-archive: deps
+archive: deps swig
 	mkdir -p output/archive
 	go build -ldflags="-w" -o output/archive/rsa.a -buildmode=c-archive binding/main.go
 

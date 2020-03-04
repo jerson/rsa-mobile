@@ -9,7 +9,7 @@ KeyPair buildKeyPair(char * publicKey,char * privateKey)
   return keyPair;
 }
 
-void error_generate_throw(char * message)
+void errorGenerateThrow(char * message)
 {
   throw message;
 }
