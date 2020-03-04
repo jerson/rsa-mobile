@@ -1,5 +1,6 @@
 package main
 
+//#include "rsa_bridge/rsa_bridge.h"
 import "C"
 import (
 	"github.com/jerson/rsa-mobile/binding/rsa_bridge"
@@ -54,13 +55,13 @@ func EncryptPKCS1v15(message, pkcs12, passphrase *C.char) *C.char {
 }
 
 //export Generate
-func Generate(nBits int) rsa_bridge.KeyPair {
+func Generate(nBits int) *C.KeyPair {
 	result, err := instance.Generate(nBits)
 	if err != nil {
 		errorThrow(err)
 		return nil
 	}
-	return rsa_bridge.BuildKeyPair(result.PublicKey, result.PrivateKey)
+	return C.buildKeyPair(C.CString(result.PublicKey), C.CString(result.PrivateKey))
 
 }
 

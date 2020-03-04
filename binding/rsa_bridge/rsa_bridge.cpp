@@ -1,11 +1,11 @@
 #include "rsa_bridge.h"
 #include <iostream>
 
-KeyPair buildKeyPair(char * publicKey,char * privateKey)
+KeyPair *buildKeyPair(char * publicKey,char * privateKey)
 {
-  KeyPair keyPair;
-  keyPair.publicKey = publicKey;
-  keyPair.publicKey = privateKey;
+  KeyPair *keyPair;
+  keyPair->publicKey = publicKey;
+  keyPair->publicKey = privateKey;
   return keyPair;
 }
 
