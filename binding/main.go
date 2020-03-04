@@ -1,18 +1,16 @@
 package main
 
-/*
-#include "rsa_module.cc"
-*/
 import "C"
 import (
+	"github.com/jerson/rsa-mobile/binding/rsa_bridge"
 	"github.com/jerson/rsa-mobile/rsa"
 )
 
 var instance = rsa.NewFastRSA()
 
 func errorThrow(err error) {
-	println(err.Error())
-	//C.error_generate_throw(C.CString(err.Error()))
+	//println(err.Error())
+	rsa_bridge.ErrorGenerateThrow(err.Error())
 }
 
 //export DecryptOAEP
@@ -56,13 +54,13 @@ func EncryptPKCS1v15(message, pkcs12, passphrase *C.char) *C.char {
 }
 
 //export Generate
-func Generate(nBits int) *map[*C.char]*C.char {
+func Generate(nBits int) rsa_bridge.KeyPair {
 	result, err := instance.Generate(nBits)
 	if err != nil {
 		errorThrow(err)
 		return nil
 	}
-	return C.build_key_pair(C.CString(result.PublicKey),C.CString(result.PrivateKey))
+	return rsa_bridge.BuildKeyPair(result.PublicKey, result.PrivateKey)
 
 }
 

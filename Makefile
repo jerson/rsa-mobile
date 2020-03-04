@@ -27,6 +27,9 @@ wasm:
 	GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o output/wasm/rsa.wasm wasm/main.go
 	cp output/wasm/rsa.wasm wasm/sample/public/rsa.wasm
 
+swig:
+	swig -go -cgo -c++ -intgosize 64 binding/rsa_bridge/rsa_bridge.i
+
 binding: deps
 	mkdir -p output/binding
 	go build -ldflags="-w" -o output/binding/rsa.so -buildmode=c-shared binding/main.go
