@@ -6,7 +6,6 @@ import "C"
 import (
 	"fmt"
 
-	"github.com/jerson/rsa-mobile/binding/rsa_bridge"
 	"github.com/jerson/rsa-mobile/rsa"
 )
 
