@@ -4,9 +4,6 @@ package main
 // typedef struct { char *publicKey; char *privateKey; } KeyPair;
 import "C"
 import (
-
-	//"unsafe"
-
 	"github.com/jerson/rsa-mobile/binding/rsa_bridge"
 	"github.com/jerson/rsa-mobile/rsa"
 )
@@ -14,7 +11,6 @@ import (
 var instance = rsa.NewFastRSA()
 
 func errorThrow(err error) {
-	//println(err.Error())
 	rsa_bridge.ErrorGenerateThrow(err.Error())
 }
 
@@ -63,21 +59,9 @@ func Generate(nBits int) C.KeyPair {
 	result, err := instance.Generate(nBits)
 	if err != nil {
 		errorThrow(err)
-		//keyPair := rsa_bridge.BuildKeyPair("", "")
-		//fmt.Println(fmt.Sprintf("result keyPair empty %#v", keyPair.Swigcptr()))
-
-		//return C.uintptr_t(keyPair.Swigcptr())
 		return C.KeyPair{C.CString(""), C.CString("")}
 
 	}
-	//return C.buildKeyPair(C.CString(result.PublicKey), C.CString(result.PrivateKey))
-	/*keyPair := rsa_bridge.BuildKeyPair(result.PublicKey, result.PrivateKey)
-	pointer := keyPair.Swigcptr()
-
-	fmt.Println(fmt.Sprintf("result keyPair unsafe %#v", unsafe.Pointer(&pointer)))
-	fmt.Println(fmt.Sprintf("result keyPair %#v", pointer))
-	fmt.Println(fmt.Sprintf("result keyPair %#v", C.uintptr_t(pointer)))
-	*/
 	return C.KeyPair{C.CString(result.PublicKey), C.CString(result.PrivateKey)}
 
 }
