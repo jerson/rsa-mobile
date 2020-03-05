@@ -3,5 +3,5 @@
 
 void errorGenerateThrow(char * message)
 {
-  throw message;
+  throw *message;
 }

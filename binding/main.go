@@ -4,6 +4,8 @@ package main
 // typedef struct { char *publicKey; char *privateKey; } KeyPair;
 import "C"
 import (
+	"fmt"
+
 	"github.com/jerson/rsa-mobile/binding/rsa_bridge"
 	"github.com/jerson/rsa-mobile/rsa"
 )
@@ -11,7 +13,8 @@ import (
 var instance = rsa.NewFastRSA()
 
 func errorThrow(err error) {
-	rsa_bridge.ErrorGenerateThrow(err.Error())
+	fmt.Println(err.Error())
+	//rsa_bridge.ErrorGenerateThrow(err.Error())
 }
 
 //export DecryptOAEP
