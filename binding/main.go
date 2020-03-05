@@ -14,6 +14,7 @@ var instance = rsa.NewFastRSA()
 
 func errorThrow(err error) {
 	fmt.Println(err.Error())
+
 	//rsa_bridge.ErrorGenerateThrow(err.Error())
 }
 
