@@ -18,9 +18,6 @@ gomobile:
 	go get golang.org/x/mobile/cmd/gomobile
 	gomobile init
 
-xgo:
-	go get github.com/karalabe/xgo
-
 .PHONY: wasm
 wasm:
 	mkdir -p output/wasm
