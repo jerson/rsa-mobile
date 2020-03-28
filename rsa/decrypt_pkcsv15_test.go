@@ -1,14 +1,15 @@
 package rsa
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestFastRSA_DecryptPKCS1v15(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.DecryptPKCS1v15(ciphertext, privateKey)
-	if err != nil {
-		t.Fatal(err)
-	}
+	output, err := instance.DecryptPKCS1v15(cipherText, privateKey)
+	assert.NoError(t, err)
 
 	t.Log("output:", output)
 }

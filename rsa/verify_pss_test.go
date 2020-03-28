@@ -1,15 +1,16 @@
 package rsa
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestFastRSA_VerifyPSS(t *testing.T) {
 
 	instance := NewFastRSA()
 
-	output, err := instance.VerifyPSS(signed_pss, inputMessage, "sha512", publicKey)
-	if err != nil {
-		t.Fatal(err)
-	}
+	output, err := instance.VerifyPSS(signedPSS, inputMessage, "sha512", publicKey)
+	assert.NoError(t, err)
 
 	t.Log("output:", output)
 }

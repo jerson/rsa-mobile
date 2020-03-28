@@ -1,14 +1,15 @@
 package rsa
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestFastRSA_DecryptOAEP(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.DecryptOAEP(ciphertext_oaep, "", "sha256", privateKey)
-	if err != nil {
-		t.Fatal(err)
-	}
+	output, err := instance.DecryptOAEP(cipherTextOAEP, "", "sha256", privateKey)
+	assert.NoError(t, err)
 
 	t.Log("output:", output)
 }

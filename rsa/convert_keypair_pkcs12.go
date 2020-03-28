@@ -3,7 +3,6 @@ package rsa
 import (
 	"crypto/rand"
 	"crypto/x509"
-	"encoding/base64"
 	"encoding/pem"
 	"software.sslmate.com/src/go-pkcs12"
 )
@@ -13,7 +12,13 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, pas
 	privateBlock, _ := pem.Decode([]byte(privateKey))
 	privateKeyCert, err := x509.ParsePKCS1PrivateKey(privateBlock.Bytes)
 	if err != nil {
+		/*privateKeyCert, err = x509.ParsePKCS8PrivateKey(privateBlock.Bytes)
+		if err != nil {
+			privateKeyCert, err = x509.ParseECPrivateKey(privateBlock.Bytes)
+			if err != nil {*/
 		return "", err
+		//	}
+		//}
 	}
 
 	publicBlock, _ := pem.Decode([]byte(publicKey))
@@ -36,12 +41,12 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, pas
 		return "", err
 	}
 
-	//output, err := encodeToPEMBase64(encoded)
-	//if err != nil {
-	///	return "", err
-	//}
+	output, err := encodeToPEMBase64(encoded)
+	if err != nil {
+		return "", err
+	}
 
-	output := base64.StdEncoding.EncodeToString(encoded)
+	//output := base64.StdEncoding.EncodeToString(encoded)
 
 	return string(output), nil
 }

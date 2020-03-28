@@ -156,8 +156,8 @@ func encodeToPEMBase64(input []byte) ([]byte, error) {
 	if _, err := b64.Write(input); err != nil {
 		return nil, err
 	}
-	defer b64.Close()
-	defer breaker.Close()
+	b64.Close()
+	breaker.Close()
 
 	return out.Bytes(), nil
 
