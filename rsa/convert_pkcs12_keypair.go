@@ -14,9 +14,19 @@ func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string) (*PKCS12KeyP
 		return nil, err
 	}
 
-	keybaseRSA := toCryptoRSAPrivateKey(key)
-	privateKey := encodePrivateKey(keybaseRSA)
-	publicKey := encodePublicKey(&keybaseRSA.PublicKey)
+	privateKey, err := encodePrivateKey(key)
+	if err != nil {
+		return nil, err
+	}
+	publicKeySource, err := publicFromPrivate(key)
+	if err != nil {
+		return nil, err
+	}
+	publicKey, err := encodePublicKey(publicKeySource)
+	if err != nil {
+		return nil, err
+	}
+
 	certificateEncoded := encodeCertificate(certificate)
 	keyPair = &PKCS12KeyPair{
 		PublicKey:   string(publicKey),

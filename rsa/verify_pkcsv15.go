@@ -23,7 +23,7 @@ func (r *FastRSA) VerifyPKCS1v15(signature, message, hashName, publicKey string)
 		return false, err
 	}
 
-	err = rsa.VerifyPKCS1v15(public, hashTo(hashName), hash.Sum(nil), signatureBytes)
+	err = rsa.VerifyPKCS1v15(public, getHashType(hashName), hash.Sum(nil), signatureBytes)
 	if err != nil {
 		return false, err
 	}

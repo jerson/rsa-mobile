@@ -9,7 +9,7 @@ func TestFastRSA_SignPSS(t *testing.T) {
 
 	instance := NewFastRSA()
 
-	output, err := instance.SignPSS(inputMessage, "sha512", privateKey)
+	output, err := instance.SignPSS(inputMessage, "sha512", "auto", privateKey)
 	assert.NoError(t, err)
 
 	t.Log("output:", output)

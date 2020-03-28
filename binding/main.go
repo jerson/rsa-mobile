@@ -100,8 +100,8 @@ func SignPKCS1v15(message, hashName, privateKey *C.char) *C.char {
 }
 
 //export SignPSS
-func SignPSS(message, hashName, privateKey *C.char) *C.char {
-	result, err := instance.SignPSS(C.GoString(message), C.GoString(hashName), C.GoString(privateKey))
+func SignPSS(message, hashName, saltLengthName, privateKey *C.char) *C.char {
+	result, err := instance.SignPSS(C.GoString(message), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(privateKey))
 	if err != nil {
 		errorThrow(err)
 		return nil
@@ -123,8 +123,8 @@ func VerifyPKCS1v15(signature, message, hashName, publicKey *C.char) *C.char {
 }
 
 //export VerifyPSS
-func VerifyPSS(signature, message, hashName, publicKey *C.char) *C.char {
-	result, err := instance.VerifyPSS(C.GoString(signature), C.GoString(message), C.GoString(hashName), C.GoString(publicKey))
+func VerifyPSS(signature, message, hashName, saltLengthName, publicKey *C.char) *C.char {
+	result, err := instance.VerifyPSS(C.GoString(signature), C.GoString(message), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(publicKey))
 	if err != nil {
 		errorThrow(err)
 		return nil

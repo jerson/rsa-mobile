@@ -20,7 +20,7 @@ func (r *FastRSA) SignPKCS1v15(message, hashName, privateKey string) (string, er
 		return "", err
 	}
 
-	signature, err := rsa.SignPKCS1v15(rand.Reader, private, hashTo(hashName), hash.Sum(nil))
+	signature, err := rsa.SignPKCS1v15(rand.Reader, private, getHashType(hashName), hash.Sum(nil))
 	if err != nil {
 		return "", err
 	}

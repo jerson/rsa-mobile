@@ -93,7 +93,7 @@ func SignPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func SignPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.SignPSS(i[0].String(), i[1].String(), i[2].String())
+		return instance.SignPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String())
 	})
 }
 
@@ -105,7 +105,7 @@ func VerifyPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func VerifyPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.VerifyPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+		return instance.VerifyPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
 	})
 }
 

@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func (r *FastRSA) VerifyPSS(signature, message, hashName, publicKey string) (bool, error) {
+func (r *FastRSA) VerifyPSS(signature, message, hashName, saltLengthName, publicKey string) (bool, error) {
 	public, err := r.readPublicKey(publicKey)
 	if err != nil {
 		return false, err
@@ -17,15 +17,16 @@ func (r *FastRSA) VerifyPSS(signature, message, hashName, publicKey string) (boo
 		return false, err
 	}
 
+	saltLength := getSaltLength(saltLengthName)
 	hash := getHashInstance(hashName)
 	_, err = io.WriteString(hash, message)
 	if err != nil {
 		return false, err
 	}
 
-	err = rsa.VerifyPSS(public, hashTo(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
-		SaltLength: rsa.PSSSaltLengthEqualsHash,
-		Hash:       hashTo(hashName),
+	err = rsa.VerifyPSS(public, getHashType(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
+		SaltLength: saltLength,
+		Hash:       getHashType(hashName),
 	})
 	if err != nil {
 		return false, err
