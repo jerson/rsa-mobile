@@ -6,8 +6,8 @@ import (
 
 func TestFastRSA_Generate1024(t *testing.T) {
 
-	openPGP := NewFastRSA()
-	output, err := openPGP.Generate(1024)
+	instance := NewFastRSA()
+	output, err := instance.Generate(1024)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -16,8 +16,8 @@ func TestFastRSA_Generate1024(t *testing.T) {
 }
 func TestFastRSA_Generate2048(t *testing.T) {
 
-	openPGP := NewFastRSA()
-	output, err := openPGP.Generate(2048)
+	instance := NewFastRSA()
+	output, err := instance.Generate(2048)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -26,8 +26,8 @@ func TestFastRSA_Generate2048(t *testing.T) {
 }
 func TestFastRSA_Generate4096(t *testing.T) {
 
-	openPGP := NewFastRSA()
-	output, err := openPGP.Generate(4096)
+	instance := NewFastRSA()
+	output, err := instance.Generate(4096)
 	if err != nil {
 		t.Fatal(err)
 	}

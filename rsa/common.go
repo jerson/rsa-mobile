@@ -9,6 +9,7 @@ import (
 	"crypto/sha512"
 	"crypto/x509"
 	"encoding/base64"
+	"encoding/pem"
 	"github.com/keybase/go-crypto/pkcs12"
 	"github.com/keybase/go-crypto/rsa"
 	"hash"
@@ -106,6 +107,26 @@ func toKeyBaseRSA(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
 		},
 	}
 	return privateKey
+}
+
+func generateKeyPair(keybaseRSA *cryptoRSA.PrivateKey) *KeyPair {
+	privateKey := pem.EncodeToMemory(
+		&pem.Block{
+			Type:  "RSA PRIVATE KEY",
+			Bytes: x509.MarshalPKCS1PrivateKey(keybaseRSA),
+		},
+	)
+	publicKey := pem.EncodeToMemory(
+		&pem.Block{
+			Type:  "PUBLIC KEY",
+			Bytes: x509.MarshalPKCS1PublicKey(&keybaseRSA.PublicKey),
+		},
+	)
+	return &KeyPair{
+		PublicKey:  string(publicKey),
+		PrivateKey: string(privateKey),
+	}
+
 }
 
 func (r *FastRSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Certificate, error) {
