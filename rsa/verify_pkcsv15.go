@@ -6,8 +6,8 @@ import (
 	"io"
 )
 
-func (r *FastRSA) VerifyPKCS1v15(signature, message, hashName, pkcs12, passphrase string) (bool, error) {
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+func (r *FastRSA) VerifyPKCS1v15(signature, message, hashName, publicKey string) (bool, error) {
+	public, err := r.readPublicKey(publicKey)
 	if err != nil {
 		return false, err
 	}
@@ -23,7 +23,7 @@ func (r *FastRSA) VerifyPKCS1v15(signature, message, hashName, pkcs12, passphras
 		return false, err
 	}
 
-	err = rsa.VerifyPKCS1v15(&privateKey.PublicKey, hashTo(hashName), hash.Sum(nil), signatureBytes)
+	err = rsa.VerifyPKCS1v15(public, hashTo(hashName), hash.Sum(nil), signatureBytes)
 	if err != nil {
 		return false, err
 	}

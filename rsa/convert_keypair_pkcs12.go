@@ -25,8 +25,6 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, pas
 		privateKeyCert.PublicKey = *publicKeyCert
 	}
 
-	//ert, err := tls.X509KeyPair(publicBlock.Bytes, privateBlock.Bytes)
-
 	certificateBlock, _ := pem.Decode([]byte(certificate))
 	certificateCert, err := x509.ParseCertificate(certificateBlock.Bytes)
 	if err != nil {
@@ -38,7 +36,12 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, pas
 		return "", err
 	}
 
+	//output, err := encodeToPEMBase64(encoded)
+	//if err != nil {
+	///	return "", err
+	//}
+
 	output := base64.StdEncoding.EncodeToString(encoded)
 
-	return output, nil
+	return string(output), nil
 }

@@ -6,9 +6,9 @@ import (
 	"github.com/keybase/go-crypto/rsa"
 )
 
-func (r *FastRSA) DecryptPKCS1v15(ciphertext, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) DecryptPKCS1v15(ciphertext, privateKey string) (string, error) {
 
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+	private, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -16,7 +16,7 @@ func (r *FastRSA) DecryptPKCS1v15(ciphertext, pkcs12, passphrase string) (string
 	if err != nil {
 		return "", err
 	}
-	output, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, ciphertextDecoded)
+	output, err := rsa.DecryptPKCS1v15(rand.Reader, private, ciphertextDecoded)
 	if err != nil {
 		return "", err
 	}

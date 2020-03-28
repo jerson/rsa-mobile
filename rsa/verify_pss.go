@@ -6,8 +6,8 @@ import (
 	"io"
 )
 
-func (r *FastRSA) VerifyPSS(signature, message, hashName, pkcs12, passphrase string) (bool, error) {
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+func (r *FastRSA) VerifyPSS(signature, message, hashName, publicKey string) (bool, error) {
+	public, err := r.readPublicKey(publicKey)
 	if err != nil {
 		return false, err
 	}
@@ -23,7 +23,7 @@ func (r *FastRSA) VerifyPSS(signature, message, hashName, pkcs12, passphrase str
 		return false, err
 	}
 
-	err = rsa.VerifyPSS(&privateKey.PublicKey, hashTo(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
+	err = rsa.VerifyPSS(public, hashTo(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
 		SaltLength: rsa.PSSSaltLengthEqualsHash,
 		Hash:       hashTo(hashName),
 	})

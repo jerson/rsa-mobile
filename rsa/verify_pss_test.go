@@ -6,7 +6,7 @@ func TestFastRSA_VerifyPSS(t *testing.T) {
 
 	instance := NewFastRSA()
 
-	output, err := instance.VerifyPSS(signed_pss, inputMessage, "sha512", p12, passphrase)
+	output, err := instance.VerifyPSS(signed_pss, inputMessage, "sha512", publicKey)
 	if err != nil {
 		t.Fatal(err)
 	}

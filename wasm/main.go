@@ -36,25 +36,25 @@ func Promise(i []js.Value, fn func() (result interface{}, err error)) interface{
 
 func DecryptOAEP(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.DecryptOAEP(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
+		return instance.DecryptOAEP(i[0].String(), i[1].String(), i[2].String(), i[3].String())
 	})
 }
 
 func DecryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.DecryptPKCS1v15(i[0].String(), i[1].String(), i[2].String())
+		return instance.DecryptPKCS1v15(i[0].String(), i[1].String())
 	})
 }
 
 func EncryptOAEP(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.EncryptOAEP(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
+		return instance.EncryptOAEP(i[0].String(), i[1].String(), i[2].String(), i[3].String())
 	})
 }
 
 func EncryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.EncryptPKCS1v15(i[0].String(), i[1].String(), i[2].String())
+		return instance.EncryptPKCS1v15(i[0].String(), i[1].String())
 	})
 
 }
@@ -87,25 +87,25 @@ func Base64(this js.Value, i []js.Value) interface{} {
 
 func SignPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.SignPKCS1v15(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+		return instance.SignPKCS1v15(i[0].String(), i[1].String(), i[2].String())
 	})
 }
 
 func SignPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.SignPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+		return instance.SignPSS(i[0].String(), i[1].String(), i[2].String())
 	})
 }
 
 func VerifyPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.VerifyPKCS1v15(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
+		return instance.VerifyPKCS1v15(i[0].String(), i[1].String(), i[2].String(), i[3].String())
 	})
 }
 
 func VerifyPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.VerifyPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
+		return instance.VerifyPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String())
 	})
 }
 

@@ -18,7 +18,12 @@ func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 		return keyPair, err
 	}
 
-	keybaseRSA := toCryptoRSA(key)
-	keyPair = generateKeyPair(keybaseRSA)
+	keybaseRSA := toCryptoRSAPrivateKey(key)
+	privateKey := encodePrivateKey(keybaseRSA)
+	publicKey := encodePublicKey(&keybaseRSA.PublicKey)
+	keyPair = &KeyPair{
+		PublicKey:  string(publicKey),
+		PrivateKey: string(privateKey),
+	}
 	return keyPair, nil
 }

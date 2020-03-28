@@ -2,6 +2,8 @@ package rsa
 
 import (
 	"encoding/json"
+	"errors"
+	"strings"
 	"testing"
 )
 
@@ -30,11 +32,11 @@ func TestFastRSA_ConvertPKCS12ToKeyPairComplete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	/*p12Normalized := strings.ReplaceAll(p12, "\n", "")
+	p12Normalized := strings.ReplaceAll(p12, "\n", "")
 	p12Normalized = strings.ReplaceAll(p12, "\r", "")
-	if output != p12Normalized {
+	if strings.TrimSpace(output) != strings.TrimSpace(p12Normalized) {
 		t.Fatal(errors.New("should be equal"))
-	}*/
+	}
 
 	t.Log("output:", output)
 }

@@ -8,9 +8,9 @@ import (
 	"github.com/keybase/go-crypto/rsa"
 )
 
-func (r *FastRSA) SignPSS(message, hashName, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) SignPSS(message, hashName, privateKey string) (string, error) {
 
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+	private, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -21,7 +21,7 @@ func (r *FastRSA) SignPSS(message, hashName, pkcs12, passphrase string) (string,
 		return "", err
 	}
 
-	signature, err := rsa.SignPSS(rand.Reader, privateKey, hashTo(hashName), hash.Sum(nil), &rsa.PSSOptions{
+	signature, err := rsa.SignPSS(rand.Reader, private, hashTo(hashName), hash.Sum(nil), &rsa.PSSOptions{
 		SaltLength: rsa.PSSSaltLengthEqualsHash,
 		Hash:       hashTo(hashName),
 	})

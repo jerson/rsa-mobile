@@ -6,9 +6,9 @@ import (
 	"github.com/keybase/go-crypto/rsa"
 )
 
-func (r *FastRSA) DecryptOAEP(ciphertext, label, hashName, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) DecryptOAEP(ciphertext, label, hashName, privateKey string) (string, error) {
 
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+	private, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -19,7 +19,7 @@ func (r *FastRSA) DecryptOAEP(ciphertext, label, hashName, pkcs12, passphrase st
 	output, err := rsa.DecryptOAEP(
 		getHashInstance(hashName),
 		rand.Reader,
-		privateKey,
+		private,
 		ciphertextDecoded,
 		[]byte(label),
 	)

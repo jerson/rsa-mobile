@@ -7,9 +7,9 @@ import (
 	"io"
 )
 
-func (r *FastRSA) SignPKCS1v15(message, hashName, pkcs12, passphrase string) (string, error) {
+func (r *FastRSA) SignPKCS1v15(message, hashName, privateKey string) (string, error) {
 
-	privateKey, _, err := r.readPKCS12(pkcs12, passphrase)
+	private, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -20,7 +20,7 @@ func (r *FastRSA) SignPKCS1v15(message, hashName, pkcs12, passphrase string) (st
 		return "", err
 	}
 
-	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, hashTo(hashName), hash.Sum(nil))
+	signature, err := rsa.SignPKCS1v15(rand.Reader, private, hashTo(hashName), hash.Sum(nil))
 	if err != nil {
 		return "", err
 	}

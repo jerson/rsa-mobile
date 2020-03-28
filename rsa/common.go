@@ -1,6 +1,7 @@
 package rsa
 
 import (
+	"bytes"
 	"crypto"
 	"crypto/md5"
 	cryptoRSA "crypto/rsa"
@@ -53,7 +54,7 @@ func getHashInstance(name string) hash.Hash {
 	}
 }
 
-func toCryptoRSA(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
+func toCryptoRSAPrivateKey(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 
 	var crtValues []cryptoRSA.CRTValue
 	for _, value := range keybasePrivateKey.Precomputed.CRTValues {
@@ -65,12 +66,9 @@ func toCryptoRSA(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 	}
 
 	privateKey := &cryptoRSA.PrivateKey{
-		PublicKey: cryptoRSA.PublicKey{
-			N: keybasePrivateKey.PublicKey.N,
-			E: int(keybasePrivateKey.PublicKey.E),
-		},
-		D:      keybasePrivateKey.D,
-		Primes: keybasePrivateKey.Primes,
+		PublicKey: *toCryptoRSAPublicKey(&keybasePrivateKey.PublicKey),
+		D:         keybasePrivateKey.D,
+		Primes:    keybasePrivateKey.Primes,
 		Precomputed: cryptoRSA.PrecomputedValues{
 			Dp:        keybasePrivateKey.Precomputed.Dp,
 			Dq:        keybasePrivateKey.Precomputed.Dq,
@@ -81,7 +79,14 @@ func toCryptoRSA(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 	return privateKey
 }
 
-func toKeyBaseRSA(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
+func toCryptoRSAPublicKey(publicKey *rsa.PublicKey) *cryptoRSA.PublicKey {
+	return &cryptoRSA.PublicKey{
+		N: publicKey.N,
+		E: int(publicKey.E),
+	}
+}
+
+func toKeyBaseRSAPrivateKey(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
 
 	var crtValues []rsa.CRTValue
 	for _, value := range cryptoPrivateKey.Precomputed.CRTValues {
@@ -93,12 +98,9 @@ func toKeyBaseRSA(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
 	}
 
 	privateKey := &rsa.PrivateKey{
-		PublicKey: rsa.PublicKey{
-			N: cryptoPrivateKey.PublicKey.N,
-			E: int64(cryptoPrivateKey.PublicKey.E),
-		},
-		D:      cryptoPrivateKey.D,
-		Primes: cryptoPrivateKey.Primes,
+		PublicKey: *toKeyBaseRSAPublicKey(&cryptoPrivateKey.PublicKey),
+		D:         cryptoPrivateKey.D,
+		Primes:    cryptoPrivateKey.Primes,
 		Precomputed: rsa.PrecomputedValues{
 			Dp:        cryptoPrivateKey.Precomputed.Dp,
 			Dq:        cryptoPrivateKey.Precomputed.Dq,
@@ -109,24 +111,77 @@ func toKeyBaseRSA(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
 	return privateKey
 }
 
-func generateKeyPair(keybaseRSA *cryptoRSA.PrivateKey) *KeyPair {
-	privateKey := pem.EncodeToMemory(
-		&pem.Block{
-			Type:  "RSA PRIVATE KEY",
-			Bytes: x509.MarshalPKCS1PrivateKey(keybaseRSA),
-		},
-	)
-	publicKey := pem.EncodeToMemory(
+func toKeyBaseRSAPublicKey(publicKey *cryptoRSA.PublicKey) *rsa.PublicKey {
+	return &rsa.PublicKey{
+		N: publicKey.N,
+		E: int64(publicKey.E),
+	}
+}
+
+func encodePublicKey(publicKey *cryptoRSA.PublicKey) []byte {
+	return pem.EncodeToMemory(
 		&pem.Block{
 			Type:  "PUBLIC KEY",
-			Bytes: x509.MarshalPKCS1PublicKey(&keybaseRSA.PublicKey),
+			Bytes: x509.MarshalPKCS1PublicKey(publicKey),
 		},
 	)
-	return &KeyPair{
-		PublicKey:  string(publicKey),
-		PrivateKey: string(privateKey),
+}
+
+func encodePrivateKey(privateKey *cryptoRSA.PrivateKey) []byte {
+	return pem.EncodeToMemory(
+		&pem.Block{
+			Type:  "RSA PRIVATE KEY",
+			Bytes: x509.MarshalPKCS1PrivateKey(privateKey),
+		},
+	)
+}
+
+func encodeCertificate(certificate *x509.Certificate) []byte {
+
+	return pem.EncodeToMemory(
+		&pem.Block{
+			Type:  "CERTIFICATE",
+			Bytes: certificate.Raw,
+		},
+	)
+}
+
+func encodeToPEMBase64(input []byte) ([]byte, error) {
+
+	var out bytes.Buffer
+	var breaker lineBreaker
+	breaker.out = &out
+
+	b64 := base64.NewEncoder(base64.StdEncoding, &breaker)
+	if _, err := b64.Write(input); err != nil {
+		return nil, err
+	}
+	defer b64.Close()
+	defer breaker.Close()
+
+	return out.Bytes(), nil
+
+}
+
+func (r *FastRSA) readPrivateKey(privateKey string) (*rsa.PrivateKey, error) {
+
+	privateBlock, _ := pem.Decode([]byte(privateKey))
+	privateKeyCert, err := x509.ParsePKCS1PrivateKey(privateBlock.Bytes)
+	if err != nil {
+		return nil, err
 	}
 
+	return toKeyBaseRSAPrivateKey(privateKeyCert), nil
+}
+
+func (r *FastRSA) readPublicKey(publicKey string) (*rsa.PublicKey, error) {
+
+	publicBlock, _ := pem.Decode([]byte(publicKey))
+	publicKeyCert, err := x509.ParsePKCS1PublicKey(publicBlock.Bytes)
+	if err != nil {
+		return nil, err
+	}
+	return toKeyBaseRSAPublicKey(publicKeyCert), nil
 }
 
 func (r *FastRSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Certificate, error) {
@@ -140,7 +195,7 @@ func (r *FastRSA) readPKCS12(data, passphrase string) (*rsa.PrivateKey, *x509.Ce
 		return nil, certificate, err
 	}
 
-	privateKey := toKeyBaseRSA(private.(*cryptoRSA.PrivateKey))
+	privateKey := toKeyBaseRSAPrivateKey(private.(*cryptoRSA.PrivateKey))
 	if err := privateKey.Validate(); err != nil {
 		return privateKey, certificate, err
 	}
