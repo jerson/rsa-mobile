@@ -50,11 +50,21 @@ func ConvertKeyPairToPKCS12(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.ConvertKeyPairToPKCS12(i[0].String(), i[1].String(), i[2].String())
 	})
+
 }
 
 func ConvertPKCS12ToKeyPair(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.ConvertPKCS12ToKeyPair(i[0].String(), i[1].String())
+		resultKeyPair, err := instance.ConvertPKCS12ToKeyPair(i[0].String(), i[1].String())
+		if err != nil {
+			return nil, err
+		}
+
+		return map[string]interface{}{
+			"publicKey":  resultKeyPair.PublicKey,
+			"privateKey": resultKeyPair.PrivateKey,
+			"certificate": resultKeyPair.Certificate,
+		}, err
 	})
 }
 
