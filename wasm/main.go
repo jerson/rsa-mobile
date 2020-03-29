@@ -61,7 +61,7 @@ func EncryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func Generate(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		resultKeyPair, err := instance.Generate(i[0].Int(),nil)
+		resultKeyPair, err := instance.Generate(i[0].Int())
 		if err != nil {
 			return nil, err
 		}

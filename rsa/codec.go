@@ -100,6 +100,22 @@ func getHashInstance(name string) hash.Hash {
 		return sha256.New()
 	}
 }
+func getPEMCipher(name string) x509.PEMCipher {
+	switch name {
+	case "des":
+		return x509.PEMCipherDES
+	case "3des":
+		return x509.PEMCipher3DES
+	case "aes128":
+		return x509.PEMCipherAES128
+	case "aes192":
+		return x509.PEMCipherAES192
+	case "aes256":
+		return x509.PEMCipherAES256
+	default:
+		return x509.PEMCipherAES256
+	}
+}
 
 func toCryptoRSAPrivateKey(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
 
