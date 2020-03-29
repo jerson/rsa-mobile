@@ -1,7 +1,8 @@
 package main
 
 // #include <stdint.h>
-// typedef struct { char *publicKey; char *privateKey; } KeyPair;
+// typedef struct { char *privateKey; char *publicKey; } KeyPair;
+// typedef struct { char *privateKey; char *publicKey; char *certificate; } PKCS12KeyPair;
 import "C"
 import (
 	"fmt"
@@ -13,8 +14,127 @@ var instance = rsa.NewFastRSA()
 
 func errorThrow(err error) {
 	fmt.Println(err.Error())
-
 	//rsa_bridge.ErrorGenerateThrow(err.Error())
+}
+
+//export ConvertJWKToPrivateKey
+func ConvertJWKToPrivateKey(data, keyID *C.char) *C.char {
+	result, err := instance.ConvertJWKToPrivateKey(C.GoString(data), C.GoString(keyID))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertJWKToPublicKey
+func ConvertJWKToPublicKey(data, keyID *C.char) *C.char {
+	result, err := instance.ConvertJWKToPublicKey(C.GoString(data), C.GoString(keyID))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertKeyPairToPKCS12
+func ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, passphrase *C.char) *C.char {
+	result, err := instance.ConvertKeyPairToPKCS12(C.GoString(privateKey), C.GoString(publicKey), C.GoString(certificate), C.GoString(passphrase))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPKCS12ToKeyPair
+func ConvertPKCS12ToKeyPair(pkcs12, passphrase *C.char) C.PKCS12KeyPair {
+	result, err := instance.ConvertPKCS12ToKeyPair(C.GoString(pkcs12), C.GoString(passphrase))
+	if err != nil {
+		errorThrow(err)
+		return C.PKCS12KeyPair{C.CString(""), C.CString(""), C.CString("")}
+	}
+	return C.PKCS12KeyPair{C.CString(result.PrivateKey), C.CString(result.PublicKey), C.CString(result.Certificate)}
+}
+
+//export ConvertPrivateKeyToPKCS8
+func ConvertPrivateKeyToPKCS8(privateKey *C.char) *C.char {
+	result, err := instance.ConvertPrivateKeyToPKCS8(C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPrivateKeyToPKCS1
+func ConvertPrivateKeyToPKCS1(privateKey *C.char) *C.char {
+	result, err := instance.ConvertPrivateKeyToPKCS1(C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPrivateKeyToJWK
+func ConvertPrivateKeyToJWK(privateKey *C.char) *C.char {
+	result, err := instance.ConvertPrivateKeyToJWK(C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPublicKeyToPKIX
+func ConvertPublicKeyToPKIX(publicKey *C.char) *C.char {
+	result, err := instance.ConvertPublicKeyToPKIX(C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPublicKeyToPKCS1
+func ConvertPublicKeyToPKCS1(publicKey *C.char) *C.char {
+	result, err := instance.ConvertPublicKeyToPKCS1(C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export ConvertPublicKeyToJWK
+func ConvertPublicKeyToJWK(publicKey *C.char) *C.char {
+	result, err := instance.ConvertPublicKeyToJWK(C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export DecryptPrivateKey
+func DecryptPrivateKey(privateKeyEncrypted, password *C.char) *C.char {
+	result, err := instance.DecryptPrivateKey(C.GoString(privateKeyEncrypted), C.GoString(password))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
+//export EncryptPrivateKey
+func EncryptPrivateKey(privateKeyEncrypted, password, cipherName *C.char) *C.char {
+	result, err := instance.EncryptPrivateKey(C.GoString(privateKeyEncrypted), C.GoString(password), C.GoString(cipherName))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
 }
 
 //export DecryptOAEP
@@ -65,7 +185,7 @@ func Generate(nBits int) C.KeyPair {
 		return C.KeyPair{C.CString(""), C.CString("")}
 
 	}
-	return C.KeyPair{C.CString(result.PublicKey), C.CString(result.PrivateKey)}
+	return C.KeyPair{C.CString(result.PrivateKey), C.CString(result.PublicKey)}
 
 }
 

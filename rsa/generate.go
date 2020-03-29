@@ -6,8 +6,8 @@ import (
 )
 
 type KeyPair struct {
-	PublicKey  string
 	PrivateKey string
+	PublicKey  string
 }
 
 func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
@@ -32,8 +32,8 @@ func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 	}
 
 	keyPair = &KeyPair{
-		PublicKey:  string(publicKey),
 		PrivateKey: string(privateKey),
+		PublicKey:  string(publicKey),
 	}
 	return keyPair, nil
 }
