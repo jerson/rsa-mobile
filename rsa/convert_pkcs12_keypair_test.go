@@ -8,7 +8,7 @@ import (
 func TestFastRSA_ConvertPKCS12ToKeyPair(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.ConvertPKCS12ToKeyPair(p12, passphrase)
+	output, err := instance.ConvertPKCS12ToKeyPair(p12, password)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -20,12 +20,12 @@ func TestFastRSA_ConvertPKCS12ToKeyPair(t *testing.T) {
 func TestFastRSA_ConvertPKCS12ToKeyPairComplete(t *testing.T) {
 
 	instance := NewFastRSA()
-	keyPair, err := instance.ConvertPKCS12ToKeyPair(p12, passphrase)
+	keyPair, err := instance.ConvertPKCS12ToKeyPair(p12, password)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	output, err := instance.ConvertKeyPairToPKCS12(keyPair.PrivateKey, keyPair.Certificate, passphrase)
+	output, err := instance.ConvertKeyPairToPKCS12(keyPair.PrivateKey, keyPair.Certificate, password)
 	if err != nil {
 		t.Fatal(err)
 	}

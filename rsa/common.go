@@ -38,13 +38,13 @@ func (r *FastRSA) readPublicKey(publicKey string) (*rsa.PublicKey, error) {
 	return nil, errors.New("x509: unknown format")
 }
 
-func (r *FastRSA) readPKCS12(data, passphrase string) (interface{}, *x509.Certificate, error) {
+func (r *FastRSA) readPKCS12(data, password string) (interface{}, *x509.Certificate, error) {
 
 	decoded, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {
 		return nil, nil, err
 	}
-	private, certificate, err := pkcs12.Decode(decoded, passphrase)
+	private, certificate, err := pkcs12.Decode(decoded, password)
 	if err != nil {
 		return nil, certificate, err
 	}

@@ -6,10 +6,10 @@ type PKCS12KeyPair struct {
 	Certificate string
 }
 
-func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string) (*PKCS12KeyPair, error) {
+func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, password string) (*PKCS12KeyPair, error) {
 
 	var keyPair *PKCS12KeyPair
-	key, certificate, err := r.readPKCS12(pkcs12, passphrase)
+	key, certificate, err := r.readPKCS12(pkcs12, password)
 	if err != nil {
 		return nil, err
 	}

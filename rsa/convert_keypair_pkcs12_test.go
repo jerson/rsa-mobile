@@ -8,7 +8,7 @@ import (
 
 func TestFastRSA_ConvertKeyPairToPKCS12(t *testing.T) {
 	instance := NewFastRSA()
-	output, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, passphrase)
+	output, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, password)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -18,12 +18,12 @@ func TestFastRSA_ConvertKeyPairToPKCS12(t *testing.T) {
 
 func TestFastRSA_ConvertKeyPairToPKCS12Complete(t *testing.T) {
 	instance := NewFastRSA()
-	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, passphrase)
+	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, password)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, passphrase)
+	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, password)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -37,7 +37,7 @@ func TestFastRSA_ConvertKeyPairToPKCS12Complete(t *testing.T) {
 
 func TestFastRSA_ConvertKeyPairToPKCS12WithoutCert(t *testing.T) {
 	instance := NewFastRSA()
-	output, err := instance.ConvertKeyPairToPKCS12(privateKey, "", passphrase)
+	output, err := instance.ConvertKeyPairToPKCS12(privateKey, "", password)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -47,12 +47,12 @@ func TestFastRSA_ConvertKeyPairToPKCS12WithoutCert(t *testing.T) {
 
 func TestFastRSA_ConvertKeyPairToPKCS12CompleteWithoutCert(t *testing.T) {
 	instance := NewFastRSA()
-	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, "", passphrase)
+	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, "", password)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, passphrase)
+	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, password)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,12 +153,12 @@ FkwuyTBQpYJGurqXP3rp/e/S4ZGxrC1qY2mWPRtJ+VtPFqunRTPEiPlTaxUVebEY
 `
 
 	instance := NewFastRSA()
-	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, passphrase)
+	pkcs12, err := instance.ConvertKeyPairToPKCS12(privateKey, certificate, password)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, passphrase)
+	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, password)
 	if err != nil {
 		t.Fatal(err)
 	}

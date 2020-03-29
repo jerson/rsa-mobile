@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, passphrase string) (string, error) {
+func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, password string) (string, error) {
 
 	privateKeyCertKeyBase, err := r.readPrivateKey(privateKey)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, passphrase str
 		return "", err
 	}
 
-	encoded, err := pkcs12.Encode(rand.Reader, privateKeyCert, certificateCert, nil, passphrase)
+	encoded, err := pkcs12.Encode(rand.Reader, privateKeyCert, certificateCert, nil, password)
 	if err != nil {
 		return "", err
 	}
