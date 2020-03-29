@@ -3,8 +3,6 @@ package rsa
 import (
 	"bytes"
 	"crypto"
-	"crypto/ecdsa"
-	"crypto/ed25519"
 	"crypto/md5"
 	cryptoRSA "crypto/rsa"
 	"crypto/sha1"
@@ -18,30 +16,39 @@ import (
 	"hash"
 )
 
-type FormatType int
+type PublicKeyFormatType int
 
 const (
-	FormatTypePKCS8 FormatType = iota
-	FormatTypePKCS1
-	FormatTypeECDSA
-	FormatTypeED25519
-	FormatTypePKIX
+	PublicKeyFormatTypePKCS1 PublicKeyFormatType = iota
+	PublicKeyFormatTypePKIX
 )
 
-func getFormatType(format string) FormatType {
+type PrivateKeyFormatType int
+
+const (
+	PrivateKeyFormatTypePKCS1 PrivateKeyFormatType = iota
+	PrivateKeyFormatTypePKCS8
+)
+
+func getPrivateKeyFormatType(format string) PrivateKeyFormatType {
 	switch format {
 	case "pkcs8":
-		return FormatTypePKCS8
+		return PrivateKeyFormatTypePKCS8
 	case "pkcs1":
-		return FormatTypePKCS1
-	case "ecdsa":
-		return FormatTypeECDSA
-	case "ed25519":
-		return FormatTypeED25519
-	case "pkix":
-		return FormatTypePKIX
+		return PrivateKeyFormatTypePKCS1
 	default:
-		return FormatTypePKCS8
+		return PrivateKeyFormatTypePKCS1
+	}
+}
+
+func getPublicKeyFormatType(format string) PublicKeyFormatType {
+	switch format {
+	case "pkix":
+		return PublicKeyFormatTypePKIX
+	case "pkcs1":
+		return PublicKeyFormatTypePKCS1
+	default:
+		return PublicKeyFormatTypePKCS1
 	}
 }
 
@@ -158,20 +165,27 @@ func toKeyBaseRSAPublicKey(publicKey *cryptoRSA.PublicKey) *rsa.PublicKey {
 	}
 }
 
-func encodePublicKey(publicKey interface{}) ([]byte, error) {
+func encodePublicKey(publicKey interface{}, formatType PublicKeyFormatType) ([]byte, error) {
 
 	var pemBytes []byte
 	var err error
 
+	var public *cryptoRSA.PublicKey
 	switch publicKey.(type) {
 	case *cryptoRSA.PublicKey:
-		pemBytes = x509.MarshalPKCS1PublicKey(publicKey.(*cryptoRSA.PublicKey))
+		public = publicKey.(*cryptoRSA.PublicKey)
 		break
 	case *rsa.PublicKey:
-		pemBytes = x509.MarshalPKCS1PublicKey(toCryptoRSAPublicKey(publicKey.(*rsa.PublicKey)))
+		public = toCryptoRSAPublicKey(publicKey.(*rsa.PublicKey))
 		break
-	default:
-		pemBytes, err = x509.MarshalPKCS8PrivateKey(publicKey)
+	}
+
+	switch formatType {
+	case PublicKeyFormatTypePKCS1:
+		pemBytes = x509.MarshalPKCS1PublicKey(public)
+		break
+	case PublicKeyFormatTypePKIX:
+		pemBytes, err = x509.MarshalPKIXPublicKey(public)
 		if err != nil {
 			return nil, err
 		}
@@ -185,29 +199,31 @@ func encodePublicKey(publicKey interface{}) ([]byte, error) {
 	), nil
 }
 
-func encodePrivateKey(privateKey interface{}) ([]byte, error) {
+func encodePrivateKey(privateKey interface{}, formatType PrivateKeyFormatType) ([]byte, error) {
 
 	var pemBytes []byte
 	var err error
 
+	var private *cryptoRSA.PrivateKey
 	switch privateKey.(type) {
 	case *cryptoRSA.PrivateKey:
-		pemBytes = x509.MarshalPKCS1PrivateKey(privateKey.(*cryptoRSA.PrivateKey))
+		private = privateKey.(*cryptoRSA.PrivateKey)
 		break
 	case *rsa.PrivateKey:
-		pemBytes = x509.MarshalPKCS1PrivateKey(toCryptoRSAPrivateKey(privateKey.(*rsa.PrivateKey)))
+		private = toCryptoRSAPrivateKey(privateKey.(*rsa.PrivateKey))
 		break
-	case *ecdsa.PrivateKey:
-		pemBytes, err = x509.MarshalECPrivateKey(privateKey.(*ecdsa.PrivateKey))
+	}
+
+	switch formatType {
+	case PrivateKeyFormatTypePKCS1:
+		pemBytes = x509.MarshalPKCS1PrivateKey(private)
+		break
+	case PrivateKeyFormatTypePKCS8:
+		pemBytes, err = x509.MarshalPKCS8PrivateKey(private)
 		if err != nil {
 			return nil, err
 		}
-		break
-	default:
-		pemBytes, err = x509.MarshalPKCS8PrivateKey(privateKey)
-		if err != nil {
-			return nil, err
-		}
+
 		break
 	}
 
@@ -225,11 +241,6 @@ func publicFromPrivate(privateKey interface{}) (interface{}, error) {
 		return &privateKey.(*cryptoRSA.PrivateKey).PublicKey, nil
 	case *rsa.PrivateKey:
 		return &toCryptoRSAPrivateKey(privateKey.(*rsa.PrivateKey)).PublicKey, nil
-	case *ecdsa.PrivateKey:
-		return &privateKey.(*ecdsa.PrivateKey).PublicKey, nil
-	case *ed25519.PrivateKey:
-		// TODO add test for this
-		return privateKey.(*ed25519.PrivateKey).Public(), nil
 	default:
 		return nil, fmt.Errorf("not found: %T", privateKey)
 	}

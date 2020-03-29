@@ -9,8 +9,12 @@ type KeyPair struct {
 	PublicKey  string
 	PrivateKey string
 }
+type EncodeOptions struct {
+	PublicKeyFormat  string
+	PrivateKeyFormat string
+}
 
-func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
+func (r *FastRSA) Generate(nBits int, options *EncodeOptions) (*KeyPair, error) {
 
 	var keyPair *KeyPair
 	key, err := rsa.GenerateKey(rand.Reader, nBits)
@@ -18,7 +22,7 @@ func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 		return keyPair, err
 	}
 
-	privateKey, err := encodePrivateKey(key)
+	privateKey, err := encodePrivateKey(key, getPrivateKeyFormatType(options.PrivateKeyFormat))
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +30,7 @@ func (r *FastRSA) Generate(nBits int) (*KeyPair, error) {
 	if err != nil {
 		return nil, err
 	}
-	publicKey, err := encodePublicKey(publicKeySource)
+	publicKey, err := encodePublicKey(publicKeySource, getPublicKeyFormatType(options.PublicKeyFormat))
 	if err != nil {
 		return nil, err
 	}

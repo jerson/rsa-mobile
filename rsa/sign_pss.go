@@ -15,7 +15,6 @@ func (r *FastRSA) SignPSS(message, hashName, saltLengthName, privateKey string) 
 		return "", err
 	}
 
-	saltLength := getSaltLength(saltLengthName)
 	hash := getHashInstance(hashName)
 	_, err = io.WriteString(hash, message)
 	if err != nil {
@@ -23,7 +22,7 @@ func (r *FastRSA) SignPSS(message, hashName, saltLengthName, privateKey string) 
 	}
 
 	signature, err := rsa.SignPSS(rand.Reader, private, getHashType(hashName), hash.Sum(nil), &rsa.PSSOptions{
-		SaltLength: saltLength,
+		SaltLength: getSaltLength(saltLengthName),
 		Hash:       getHashType(hashName),
 	})
 	if err != nil {

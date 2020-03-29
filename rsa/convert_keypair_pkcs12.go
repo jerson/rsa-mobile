@@ -9,19 +9,21 @@ import (
 
 func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, passphrase string) (string, error) {
 
-	privateBlock, _ := pem.Decode([]byte(privateKey))
-	privateKeyCert, err := x509.ParsePKCS1PrivateKey(privateBlock.Bytes)
+	privateKeyCertKeyBase, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
+	privateKeyCert := toCryptoRSAPrivateKey(privateKeyCertKeyBase)
 
-	publicBlock, _ := pem.Decode([]byte(publicKey))
-	publicKeyCert, err := x509.ParsePKCS1PublicKey(publicBlock.Bytes)
-	if err != nil {
-		return "", err
-	}
-	if publicKeyCert != nil {
-		privateKeyCert.PublicKey = *publicKeyCert
+	if publicKey != "" {
+		publicKeyCertKeyBase, err := r.readPublicKey(publicKey)
+		if err != nil {
+			return "", err
+		}
+		publicKeyCert := toCryptoRSAPublicKey(publicKeyCertKeyBase)
+		if publicKeyCert != nil {
+			privateKeyCert.PublicKey = *publicKeyCert
+		}
 	}
 
 	certificateBlock, _ := pem.Decode([]byte(certificate))

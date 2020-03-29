@@ -6,7 +6,7 @@ type PKCS12KeyPair struct {
 	Certificate string
 }
 
-func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string) (*PKCS12KeyPair, error) {
+func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string, options *EncodeOptions) (*PKCS12KeyPair, error) {
 
 	var keyPair *PKCS12KeyPair
 	key, certificate, err := r.readPKCS12(pkcs12, passphrase)
@@ -14,22 +14,23 @@ func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string) (*PKCS12KeyP
 		return nil, err
 	}
 
-	privateKey, err := encodePrivateKey(key)
+	privateKey, err := encodePrivateKey(key, getPrivateKeyFormatType(options.PrivateKeyFormat))
 	if err != nil {
 		return nil, err
 	}
 	publicKeySource, err := publicFromPrivate(key)
-	if err != nil {
-		return nil, err
-	}
-	publicKey, err := encodePublicKey(publicKeySource)
-	if err != nil {
-		return nil, err
+	publicKeyEncoded := ""
+	if publicKeySource != nil {
+		publicKey, err := encodePublicKey(publicKeySource, getPublicKeyFormatType(options.PublicKeyFormat))
+		if err != nil {
+			return nil, err
+		}
+		publicKeyEncoded = string(publicKey)
 	}
 
 	certificateEncoded := encodeCertificate(certificate)
 	keyPair = &PKCS12KeyPair{
-		PublicKey:   string(publicKey),
+		PublicKey:   publicKeyEncoded,
 		PrivateKey:  string(privateKey),
 		Certificate: string(certificateEncoded),
 	}

@@ -17,7 +17,6 @@ func (r *FastRSA) VerifyPSS(signature, message, hashName, saltLengthName, public
 		return false, err
 	}
 
-	saltLength := getSaltLength(saltLengthName)
 	hash := getHashInstance(hashName)
 	_, err = io.WriteString(hash, message)
 	if err != nil {
@@ -25,7 +24,7 @@ func (r *FastRSA) VerifyPSS(signature, message, hashName, saltLengthName, public
 	}
 
 	err = rsa.VerifyPSS(public, getHashType(hashName), hash.Sum(nil), signatureBytes, &rsa.PSSOptions{
-		SaltLength: saltLength,
+		SaltLength: getSaltLength(saltLengthName),
 		Hash:       getHashType(hashName),
 	})
 	if err != nil {

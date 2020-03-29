@@ -108,9 +108,13 @@ func TestFastRSA_Complete(t *testing.T) {
 
 	instance := NewFastRSA()
 	input, err := instance.EncryptPKCS1v15(inputMessage, publicKey)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 	output, err := instance.DecryptPKCS1v15(input, privateKey)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 	t.Log("output:", output)
 
 	assert.Equal(t, inputMessage, output)
@@ -120,8 +124,12 @@ func TestFastRSA_VerifyAndSign(t *testing.T) {
 
 	instance := NewFastRSA()
 	input, err := instance.SignPKCS1v15(inputMessage, "sha512", privateKey)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 	output, err := instance.VerifyPKCS1v15(input, inputMessage, "sha512", publicKey)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 	t.Log("output:", output)
 }
