@@ -7,5 +7,6 @@ require (
 	github.com/lestrrat-go/jwx v0.9.1
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/stretchr/testify v1.5.1
+	golang.org/x/mobile v0.0.0-20200329125638-4c31acba0007 // indirect
 	software.sslmate.com/src/go-pkcs12 v0.0.0-20190322163127-6e380ad96778
 )
