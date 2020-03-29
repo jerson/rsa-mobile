@@ -59,7 +59,7 @@ func EncryptPKCS1v15(message, publicKey *C.char) *C.char {
 
 //export Generate
 func Generate(nBits int) C.KeyPair {
-	result, err := instance.Generate(nBits, nil)
+	result, err := instance.Generate(nBits)
 	if err != nil {
 		errorThrow(err)
 		return C.KeyPair{C.CString(""), C.CString("")}

@@ -23,7 +23,7 @@ func TestFastRSA_ConvertKeyPairToPKCS12Complete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, passphrase, &EncodeOptions{})
+	output, err := instance.ConvertPKCS12ToKeyPair(pkcs12, passphrase)
 	if err != nil {
 		t.Fatal(err)
 	}

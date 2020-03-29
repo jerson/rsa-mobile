@@ -7,7 +7,7 @@ import (
 func TestFastRSA_Generate1024(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.Generate(1024, &EncodeOptions{})
+	output, err := instance.Generate(1024)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -17,7 +17,7 @@ func TestFastRSA_Generate1024(t *testing.T) {
 func TestFastRSA_Generate2048(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.Generate(2048, &EncodeOptions{})
+	output, err := instance.Generate(2048)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -27,23 +27,7 @@ func TestFastRSA_Generate2048(t *testing.T) {
 func TestFastRSA_Generate4096(t *testing.T) {
 
 	instance := NewFastRSA()
-	output, err := instance.Generate(4096, &EncodeOptions{
-		PublicKeyFormat:  "pkcs1",
-		PrivateKeyFormat: "pkcs1",
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	t.Log("output:", output)
-}
-func TestFastRSA_Generate4096Options(t *testing.T) {
-
-	instance := NewFastRSA()
-	output, err := instance.Generate(4096, &EncodeOptions{
-		PublicKeyFormat:  "pkix",
-		PrivateKeyFormat: "pkcs8",
-	})
+	output, err := instance.Generate(4096)
 	if err != nil {
 		t.Fatal(err)
 	}

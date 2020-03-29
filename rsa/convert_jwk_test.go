@@ -38,6 +38,7 @@ func TestFastRSA_ConvertJWKToPrivateKey(t *testing.T) {
 	assert.Equal(t, privateKeyConverted, output)
 	t.Log("output:", output)
 }
+
 func TestFastRSA_ConvertJWKToPublicKey(t *testing.T) {
 	instance := NewFastRSA()
 	output, err := instance.ConvertJWKToPublicKey(jwkPublicKey, "")
