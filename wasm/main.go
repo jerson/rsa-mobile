@@ -61,8 +61,8 @@ func ConvertPKCS12ToKeyPair(this js.Value, i []js.Value) interface{} {
 		}
 
 		return map[string]interface{}{
-			"publicKey":  resultKeyPair.PublicKey,
 			"privateKey": resultKeyPair.PrivateKey,
+			"publicKey":  resultKeyPair.PublicKey,
 			"certificate": resultKeyPair.Certificate,
 		}, err
 	})
@@ -155,8 +155,8 @@ func Generate(this js.Value, i []js.Value) interface{} {
 		}
 
 		return map[string]interface{}{
-			"publicKey":  resultKeyPair.PublicKey,
 			"privateKey": resultKeyPair.PrivateKey,
+			"publicKey":  resultKeyPair.PublicKey,
 		}, err
 	})
 }
