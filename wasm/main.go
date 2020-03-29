@@ -76,6 +76,12 @@ func ConvertPrivateKeyToJWK(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+func ConvertPrivateKeyToPublicKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPrivateKeyToPublicKey(i[0].String())
+	})
+}
+
 func ConvertPublicKeyToPKIX(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.ConvertPublicKeyToPKIX(i[0].String())
@@ -189,6 +195,7 @@ func registerCallbacks() {
 	js.Global().Set("RSAConvertPrivateKeyToPKCS8", js.FuncOf(ConvertPrivateKeyToPKCS8))
 	js.Global().Set("RSAConvertPrivateKeyToPKCS1", js.FuncOf(ConvertPrivateKeyToPKCS1))
 	js.Global().Set("RSAConvertPrivateKeyToJWK", js.FuncOf(ConvertPrivateKeyToJWK))
+	js.Global().Set("RSAConvertPrivateKeyToPublicKey", js.FuncOf(ConvertPrivateKeyToPublicKey))
 	js.Global().Set("RSAConvertPublicKeyToPKIX", js.FuncOf(ConvertPublicKeyToPKIX))
 	js.Global().Set("RSAConvertPublicKeyToPKCS1", js.FuncOf(ConvertPublicKeyToPKCS1))
 	js.Global().Set("RSAConvertPublicKeyToJWK", js.FuncOf(ConvertPublicKeyToJWK))

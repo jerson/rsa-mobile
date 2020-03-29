@@ -54,3 +54,20 @@ func (r *FastRSA) ConvertPrivateKeyToJWK(privateKey string) (string, error) {
 
 	return string(encoded), nil
 }
+
+func (r *FastRSA) ConvertPrivateKeyToPublicKey(privateKey string) (string, error) {
+
+	privateKeyCertKeyBase, err := r.readPrivateKey(privateKey)
+	if err != nil {
+		return "", err
+	}
+
+	publicKeySource, err := publicFromPrivate(privateKeyCertKeyBase)
+
+	encoded, err := encodePublicKey(publicKeySource, PublicKeyFormatTypePKCS1)
+	if err != nil {
+		return "", err
+	}
+
+	return string(encoded), nil
+}

@@ -87,6 +87,16 @@ func ConvertPrivateKeyToJWK(privateKey *C.char) *C.char {
 	return C.CString(result)
 }
 
+//export ConvertPrivateKeyToPublicKey
+func ConvertPrivateKeyToPublicKey(privateKey *C.char) *C.char {
+	result, err := instance.ConvertPrivateKeyToPublicKey(C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CString(result)
+}
+
 //export ConvertPublicKeyToPKIX
 func ConvertPublicKeyToPKIX(publicKey *C.char) *C.char {
 	result, err := instance.ConvertPublicKeyToPKIX(C.GoString(publicKey))

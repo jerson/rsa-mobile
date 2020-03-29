@@ -50,3 +50,16 @@ func TestFastRSA_ConvertPrivateKey(t *testing.T) {
 	assert.NotEqual(t, output1, output2)
 
 }
+
+func TestFastRSA_ConvertPrivateKeyToPublicKey(t *testing.T) {
+	instance := NewFastRSA()
+	output, err := instance.ConvertPrivateKeyToPublicKey(privateKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+	output2, err := instance.ConvertPublicKeyToPKCS1(publicKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, output, output2)
+}
