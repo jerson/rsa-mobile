@@ -1,8 +1,8 @@
 package rsa
 
 type PKCS12KeyPair struct {
-	PublicKey   string
 	PrivateKey  string
+	PublicKey   string
 	Certificate string
 }
 
@@ -28,11 +28,14 @@ func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, passphrase string) (*PKCS12KeyP
 		publicKeyEncoded = string(publicKey)
 	}
 
-	certificateEncoded := encodeCertificate(certificate)
+	certificateEncoded := ""
+	if certificate != nil {
+		certificateEncoded = string(encodeCertificate(certificate))
+	}
 	keyPair = &PKCS12KeyPair{
-		PublicKey:   publicKeyEncoded,
 		PrivateKey:  string(privateKey),
-		Certificate: string(certificateEncoded),
+		PublicKey:   publicKeyEncoded,
+		Certificate: certificateEncoded,
 	}
 
 	return keyPair, nil

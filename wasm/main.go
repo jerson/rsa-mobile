@@ -34,6 +34,78 @@ func Promise(i []js.Value, fn func() (result interface{}, err error)) interface{
 	return nil
 }
 
+func ConvertJWKToPrivateKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertJWKToPrivateKey(i[0].String(), i[1].String())
+	})
+}
+
+func ConvertJWKToPublicKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertJWKToPublicKey(i[0].String(), i[1].String())
+	})
+}
+
+func ConvertKeyPairToPKCS12(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertKeyPairToPKCS12(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+	})
+}
+
+func ConvertPKCS12ToKeyPair(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPKCS12ToKeyPair(i[0].String(), i[1].String())
+	})
+}
+
+func ConvertPrivateKeyToPKCS8(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPrivateKeyToPKCS8(i[0].String())
+	})
+}
+
+func ConvertPrivateKeyToPKCS1(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPrivateKeyToPKCS1(i[0].String())
+	})
+}
+
+func ConvertPrivateKeyToJWK(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPrivateKeyToJWK(i[0].String())
+	})
+}
+
+func ConvertPublicKeyToPKIX(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPublicKeyToPKIX(i[0].String())
+	})
+}
+
+func ConvertPublicKeyToPKCS1(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPublicKeyToPKCS1(i[0].String())
+	})
+}
+
+func ConvertPublicKeyToJWK(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.ConvertPublicKeyToJWK(i[0].String())
+	})
+}
+
+func DecryptPrivateKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.DecryptPrivateKey(i[0].String(), i[1].String())
+	})
+}
+
+func EncryptPrivateKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.EncryptPrivateKey(i[0].String(), i[1].String(), i[2].String())
+	})
+}
+
 func DecryptOAEP(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.DecryptOAEP(i[0].String(), i[1].String(), i[2].String(), i[3].String())
@@ -110,6 +182,18 @@ func VerifyPSS(this js.Value, i []js.Value) interface{} {
 }
 
 func registerCallbacks() {
+	js.Global().Set("RSAConvertJWKToPrivateKey", js.FuncOf(ConvertJWKToPrivateKey))
+	js.Global().Set("RSAConvertJWKToPublicKey", js.FuncOf(ConvertJWKToPublicKey))
+	js.Global().Set("RSAConvertKeyPairToPKCS12", js.FuncOf(ConvertKeyPairToPKCS12))
+	js.Global().Set("RSAConvertPKCS12ToKeyPair", js.FuncOf(ConvertPKCS12ToKeyPair))
+	js.Global().Set("RSAConvertPrivateKeyToPKCS8", js.FuncOf(ConvertPrivateKeyToPKCS8))
+	js.Global().Set("RSAConvertPrivateKeyToPKCS1", js.FuncOf(ConvertPrivateKeyToPKCS1))
+	js.Global().Set("RSAConvertPrivateKeyToJWK", js.FuncOf(ConvertPrivateKeyToJWK))
+	js.Global().Set("RSAConvertPublicKeyToPKIX", js.FuncOf(ConvertPublicKeyToPKIX))
+	js.Global().Set("RSAConvertPublicKeyToPKCS1", js.FuncOf(ConvertPublicKeyToPKCS1))
+	js.Global().Set("RSAConvertPublicKeyToJWK", js.FuncOf(ConvertPublicKeyToJWK))
+	js.Global().Set("RSADecryptPrivateKey", js.FuncOf(DecryptPrivateKey))
+	js.Global().Set("RSAEncryptPrivateKey", js.FuncOf(EncryptPrivateKey))
 	js.Global().Set("RSADecryptOAEP", js.FuncOf(DecryptOAEP))
 	js.Global().Set("RSADecryptPKCS1v15", js.FuncOf(DecryptPKCS1v15))
 	js.Global().Set("RSAEncryptOAEP", js.FuncOf(EncryptOAEP))
