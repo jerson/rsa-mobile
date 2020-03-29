@@ -11,24 +11,13 @@ import (
 	"time"
 )
 
-func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, passphrase string) (string, error) {
+func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, passphrase string) (string, error) {
 
 	privateKeyCertKeyBase, err := r.readPrivateKey(privateKey)
 	if err != nil {
 		return "", err
 	}
 	privateKeyCert := toCryptoRSAPrivateKey(privateKeyCertKeyBase)
-
-	if publicKey != "" {
-		publicKeyCertKeyBase, err := r.readPublicKey(publicKey)
-		if err != nil {
-			return "", err
-		}
-		publicKeyCert := toCryptoRSAPublicKey(publicKeyCertKeyBase)
-		if publicKeyCert != nil {
-			privateKeyCert.PublicKey = *publicKeyCert
-		}
-	}
 
 	var certificateBytes []byte
 	if certificate == "" {

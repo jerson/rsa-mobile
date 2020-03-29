@@ -48,7 +48,7 @@ func ConvertJWKToPublicKey(this js.Value, i []js.Value) interface{} {
 
 func ConvertKeyPairToPKCS12(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.ConvertKeyPairToPKCS12(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+		return instance.ConvertKeyPairToPKCS12(i[0].String(), i[1].String(), i[2].String())
 	})
 }
 

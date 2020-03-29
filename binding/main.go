@@ -38,8 +38,8 @@ func ConvertJWKToPublicKey(data, keyID *C.char) *C.char {
 }
 
 //export ConvertKeyPairToPKCS12
-func ConvertKeyPairToPKCS12(privateKey, publicKey, certificate, passphrase *C.char) *C.char {
-	result, err := instance.ConvertKeyPairToPKCS12(C.GoString(privateKey), C.GoString(publicKey), C.GoString(certificate), C.GoString(passphrase))
+func ConvertKeyPairToPKCS12(privateKey, certificate, passphrase *C.char) *C.char {
+	result, err := instance.ConvertKeyPairToPKCS12(C.GoString(privateKey), C.GoString(certificate), C.GoString(passphrase))
 	if err != nil {
 		errorThrow(err)
 		return nil
