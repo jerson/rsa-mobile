@@ -26,6 +26,16 @@ func TestFastRSA_ConvertPrivateKeyToPKCS8(t *testing.T) {
 	t.Log("output:", output)
 }
 
+func TestFastRSA_ConvertPrivateKeyToJWK(t *testing.T) {
+	instance := NewFastRSA()
+	output, err := instance.ConvertPrivateKeyToJWK(privateKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log("output:", output)
+}
+
 func TestFastRSA_ConvertPrivateKey(t *testing.T) {
 
 	instance := NewFastRSA()
