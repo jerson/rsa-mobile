@@ -6,6 +6,7 @@ package main
 import "C"
 import (
 	"fmt"
+	"unsafe"
 
 	"github.com/jerson/rsa-mobile/rsa"
 )
@@ -155,6 +156,16 @@ func DecryptOAEP(ciphertext, label, hashName, privateKey *C.char) *C.char {
 		return nil
 	}
 	return C.CString(result)
+}
+
+//export DecryptOAEPBytes
+func DecryptOAEPBytes(ciphertext unsafe.Pointer, label, hashName, privateKey *C.char) unsafe.Pointer {
+	result, err := instance.DecryptOAEPBytes(C.GoBytes(ciphertext, C.int(100)), C.GoString(label), C.GoString(hashName), C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	return C.CBytes(result)
 }
 
 //export DecryptPKCS1v15

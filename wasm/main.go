@@ -61,8 +61,8 @@ func ConvertPKCS12ToKeyPair(this js.Value, i []js.Value) interface{} {
 		}
 
 		return map[string]interface{}{
-			"privateKey": resultKeyPair.PrivateKey,
-			"publicKey":  resultKeyPair.PublicKey,
+			"privateKey":  resultKeyPair.PrivateKey,
+			"publicKey":   resultKeyPair.PublicKey,
 			"certificate": resultKeyPair.Certificate,
 		}, err
 	})
@@ -128,9 +128,30 @@ func DecryptOAEP(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+// FIXME maybe use `Uint8Array`
+func DecryptOAEPBytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.DecryptOAEPBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
+	})
+}
+
 func DecryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.DecryptPKCS1v15(i[0].String(), i[1].String())
+	})
+}
+
+func DecryptPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.DecryptPKCS1v15Bytes([]byte(i[0].String()), i[1].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
 	})
 }
 
@@ -140,9 +161,30 @@ func EncryptOAEP(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+func EncryptOAEPBytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.EncryptOAEPBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
+	})
+}
+
 func EncryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.EncryptPKCS1v15(i[0].String(), i[1].String())
+	})
+
+}
+
+func EncryptPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.EncryptPKCS1v15Bytes([]byte(i[0].String()), i[1].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
 	})
 
 }
@@ -179,9 +221,29 @@ func SignPKCS1v15(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+func SignPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.SignPKCS1v15Bytes([]byte(i[0].String()), i[1].String(), i[2].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
+	})
+}
+
 func SignPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.SignPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String())
+	})
+}
+
+func SignPSSBytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		output, err := instance.SignPSSBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		if err != nil {
+			return result, err
+		}
+		return string(output), err
 	})
 }
 
@@ -191,9 +253,21 @@ func VerifyPKCS1v15(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+func VerifyPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.VerifyPKCS1v15Bytes([]byte(i[0].String()), []byte(i[1].String()), i[2].String(), i[3].String())
+	})
+}
+
 func VerifyPSS(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.VerifyPSS(i[0].String(), i[1].String(), i[2].String(), i[3].String(), i[4].String())
+	})
+}
+
+func VerifyPSSBytes(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		return instance.VerifyPSSBytes([]byte(i[0].String()), []byte(i[1].String()), i[2].String(), i[3].String(), i[4].String())
 	})
 }
 
@@ -212,15 +286,23 @@ func registerCallbacks() {
 	js.Global().Set("RSADecryptPrivateKey", js.FuncOf(DecryptPrivateKey))
 	js.Global().Set("RSAEncryptPrivateKey", js.FuncOf(EncryptPrivateKey))
 	js.Global().Set("RSADecryptOAEP", js.FuncOf(DecryptOAEP))
+	js.Global().Set("RSADecryptOAEPBytes", js.FuncOf(DecryptOAEPBytes))
 	js.Global().Set("RSADecryptPKCS1v15", js.FuncOf(DecryptPKCS1v15))
+	js.Global().Set("RSADecryptPKCS1v15Bytes", js.FuncOf(DecryptPKCS1v15Bytes))
 	js.Global().Set("RSAEncryptOAEP", js.FuncOf(EncryptOAEP))
+	js.Global().Set("RSAEncryptOAEPBytes", js.FuncOf(EncryptOAEPBytes))
 	js.Global().Set("RSAEncryptPKCS1v15", js.FuncOf(EncryptPKCS1v15))
+	js.Global().Set("RSAEncryptPKCS1v15Bytes", js.FuncOf(EncryptPKCS1v15Bytes))
 	js.Global().Set("RSAGenerate", js.FuncOf(Generate))
 	js.Global().Set("RSAHash", js.FuncOf(Hash))
 	js.Global().Set("RSASignPKCS1v15", js.FuncOf(SignPKCS1v15))
+	js.Global().Set("RSASignPKCS1v15Bytes", js.FuncOf(SignPKCS1v15Bytes))
 	js.Global().Set("RSASignPSS", js.FuncOf(SignPSS))
+	js.Global().Set("RSASignPSSBytes", js.FuncOf(SignPSSBytes))
 	js.Global().Set("RSAVerifyPKCS1v15", js.FuncOf(VerifyPKCS1v15))
+	js.Global().Set("RSAVerifyPKCS1v15Bytes", js.FuncOf(VerifyPKCS1v15Bytes))
 	js.Global().Set("RSAVerifyPSS", js.FuncOf(VerifyPSS))
+	js.Global().Set("RSAVerifyPSSBytes", js.FuncOf(VerifyPSSBytes))
 	js.Global().Set("RSABase64", js.FuncOf(Base64))
 }
 

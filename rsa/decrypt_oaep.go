@@ -3,6 +3,7 @@ package rsa
 import (
 	"crypto/rand"
 	"encoding/base64"
+
 	"github.com/keybase/go-crypto/rsa"
 )
 
