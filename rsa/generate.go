@@ -2,7 +2,7 @@ package rsa
 
 import (
 	"crypto/rand"
-	"github.com/keybase/go-crypto/rsa"
+	"crypto/rsa"
 )
 
 type KeyPair struct {

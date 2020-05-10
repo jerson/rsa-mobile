@@ -1,8 +1,8 @@
 package rsa
 
 import (
+	"crypto/rsa"
 	"encoding/base64"
-	"github.com/keybase/go-crypto/rsa"
 )
 
 func (r *FastRSA) VerifyPKCS1v15(signature, message, hashName, publicKey string) (bool, error) {

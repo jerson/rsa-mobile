@@ -42,7 +42,7 @@ func (r *FastRSA) ConvertPrivateKeyToJWK(privateKey string) (string, error) {
 		return "", err
 	}
 
-	key, err := jwk.New(toCryptoRSAPrivateKey(privateKeyCertKeyBase))
+	key, err := jwk.New(privateKeyCertKeyBase)
 	if err != nil {
 		return "", err
 	}

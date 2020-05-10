@@ -14,7 +14,7 @@ func (r *FastRSA) EncryptPrivateKey(privateKey, password, cipherName string) (st
 	}
 
 	// TODO should be valid choose custom marshal
-	pemBytes := x509.MarshalPKCS1PrivateKey(toCryptoRSAPrivateKey(privateKeyCertKeyBase))
+	pemBytes := x509.MarshalPKCS1PrivateKey(privateKeyCertKeyBase)
 	block, err := x509.EncryptPEMBlock(rand.Reader, "RSA PRIVATE KEY", pemBytes, []byte(password), getPEMCipher(cipherName))
 	if err != nil {
 		return "", err

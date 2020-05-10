@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 
-	"github.com/keybase/go-crypto/rsa"
+	"crypto/rsa"
 )
 
 func (r *FastRSA) DecryptOAEP(ciphertext, label, hashName, privateKey string) (string, error) {

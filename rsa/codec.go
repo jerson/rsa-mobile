@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/md5"
-	cryptoRSA "crypto/rsa"
+	"crypto/rsa"
+
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
@@ -12,7 +13,6 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 	"fmt"
-	"github.com/keybase/go-crypto/rsa"
 	"hash"
 )
 
@@ -117,82 +117,15 @@ func getPEMCipher(name string) x509.PEMCipher {
 	}
 }
 
-func toCryptoRSAPrivateKey(keybasePrivateKey *rsa.PrivateKey) *cryptoRSA.PrivateKey {
-
-	var crtValues []cryptoRSA.CRTValue
-	for _, value := range keybasePrivateKey.Precomputed.CRTValues {
-		crtValues = append(crtValues, cryptoRSA.CRTValue{
-			Exp:   value.Exp,
-			Coeff: value.Coeff,
-			R:     value.R,
-		})
-	}
-
-	privateKey := &cryptoRSA.PrivateKey{
-		PublicKey: *toCryptoRSAPublicKey(&keybasePrivateKey.PublicKey),
-		D:         keybasePrivateKey.D,
-		Primes:    keybasePrivateKey.Primes,
-		Precomputed: cryptoRSA.PrecomputedValues{
-			Dp:        keybasePrivateKey.Precomputed.Dp,
-			Dq:        keybasePrivateKey.Precomputed.Dq,
-			Qinv:      keybasePrivateKey.Precomputed.Qinv,
-			CRTValues: crtValues,
-		},
-	}
-	return privateKey
-}
-
-func toCryptoRSAPublicKey(publicKey *rsa.PublicKey) *cryptoRSA.PublicKey {
-	return &cryptoRSA.PublicKey{
-		N: publicKey.N,
-		E: int(publicKey.E),
-	}
-}
-
-func toKeyBaseRSAPrivateKey(cryptoPrivateKey *cryptoRSA.PrivateKey) *rsa.PrivateKey {
-
-	var crtValues []rsa.CRTValue
-	for _, value := range cryptoPrivateKey.Precomputed.CRTValues {
-		crtValues = append(crtValues, rsa.CRTValue{
-			Exp:   value.Exp,
-			Coeff: value.Coeff,
-			R:     value.R,
-		})
-	}
-
-	privateKey := &rsa.PrivateKey{
-		PublicKey: *toKeyBaseRSAPublicKey(&cryptoPrivateKey.PublicKey),
-		D:         cryptoPrivateKey.D,
-		Primes:    cryptoPrivateKey.Primes,
-		Precomputed: rsa.PrecomputedValues{
-			Dp:        cryptoPrivateKey.Precomputed.Dp,
-			Dq:        cryptoPrivateKey.Precomputed.Dq,
-			Qinv:      cryptoPrivateKey.Precomputed.Qinv,
-			CRTValues: crtValues,
-		},
-	}
-	return privateKey
-}
-
-func toKeyBaseRSAPublicKey(publicKey *cryptoRSA.PublicKey) *rsa.PublicKey {
-	return &rsa.PublicKey{
-		N: publicKey.N,
-		E: int64(publicKey.E),
-	}
-}
-
 func encodePublicKey(publicKey interface{}, formatType PublicKeyFormatType) ([]byte, error) {
 
 	var pemBytes []byte
 	var err error
 
-	var public *cryptoRSA.PublicKey
+	var public *rsa.PublicKey
 	switch publicKey.(type) {
-	case *cryptoRSA.PublicKey:
-		public = publicKey.(*cryptoRSA.PublicKey)
-		break
 	case *rsa.PublicKey:
-		public = toCryptoRSAPublicKey(publicKey.(*rsa.PublicKey))
+		public = publicKey.(*rsa.PublicKey)
 		break
 	}
 
@@ -220,13 +153,10 @@ func encodePrivateKey(privateKey interface{}, formatType PrivateKeyFormatType) (
 	var pemBytes []byte
 	var err error
 
-	var private *cryptoRSA.PrivateKey
+	var private *rsa.PrivateKey
 	switch privateKey.(type) {
-	case *cryptoRSA.PrivateKey:
-		private = privateKey.(*cryptoRSA.PrivateKey)
-		break
 	case *rsa.PrivateKey:
-		private = toCryptoRSAPrivateKey(privateKey.(*rsa.PrivateKey))
+		private = privateKey.(*rsa.PrivateKey)
 		break
 	}
 
@@ -253,10 +183,8 @@ func encodePrivateKey(privateKey interface{}, formatType PrivateKeyFormatType) (
 
 func publicFromPrivate(privateKey interface{}) (interface{}, error) {
 	switch privateKey.(type) {
-	case *cryptoRSA.PrivateKey:
-		return &privateKey.(*cryptoRSA.PrivateKey).PublicKey, nil
 	case *rsa.PrivateKey:
-		return &toCryptoRSAPrivateKey(privateKey.(*rsa.PrivateKey)).PublicKey, nil
+		return &privateKey.(*rsa.PrivateKey).PublicKey, nil
 	default:
 		return nil, fmt.Errorf("not found: %T", privateKey)
 	}

@@ -2,7 +2,8 @@ package rsa
 
 import (
 	"crypto/rand"
-	cryptoRSA "crypto/rsa"
+	"crypto/rsa"
+
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
@@ -17,7 +18,7 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, password strin
 	if err != nil {
 		return "", err
 	}
-	privateKeyCert := toCryptoRSAPrivateKey(privateKeyCertKeyBase)
+	privateKeyCert := privateKeyCertKeyBase
 
 	var certificateBytes []byte
 	if certificate == "" {
@@ -48,7 +49,7 @@ func (r *FastRSA) ConvertKeyPairToPKCS12(privateKey, certificate, password strin
 	return string(output), nil
 }
 
-func createDefaultCertificate(privateKeyCert *cryptoRSA.PrivateKey) ([]byte, error) {
+func createDefaultCertificate(privateKeyCert *rsa.PrivateKey) ([]byte, error) {
 	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
 	serialNumber, err := rand.Int(rand.Reader, serialNumberLimit)
 	if err != nil {
