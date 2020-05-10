@@ -46,14 +46,17 @@ func (r *FastRSA) ConvertJWKToPublicKey(data, keyID string) (string, error) {
 }
 
 func getJWKKey(keyID string, set *jwk.Set) (interface{}, error) {
+	var key interface{}
 	if keyID != "" {
 		keys := set.LookupKeyID(keyID)
 		if len(keys) == 0 {
 			return nil, fmt.Errorf("key not found: %s", keyID)
 		}
 
-		return keys[0].Materialize()
+		err := keys[0].Raw(&key)
+		return key, err
 	} else {
-		return set.Keys[0].Materialize()
+		err := set.Keys[0].Raw(&key)
+		return key, err
 	}
 }
