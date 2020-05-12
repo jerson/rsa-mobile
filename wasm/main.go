@@ -3,6 +3,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"errors"
 	"syscall/js"
 
@@ -128,14 +129,17 @@ func DecryptOAEP(this js.Value, i []js.Value) interface{} {
 	})
 }
 
-// FIXME maybe use `Uint8Array`
 func DecryptOAEPBytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.DecryptOAEPBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.DecryptOAEPBytes(data, i[1].String(), i[2].String(), i[3].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 }
 
@@ -147,11 +151,15 @@ func DecryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func DecryptPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.DecryptPKCS1v15Bytes([]byte(i[0].String()), i[1].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.DecryptPKCS1v15Bytes(data, i[1].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 }
 
@@ -163,11 +171,15 @@ func EncryptOAEP(this js.Value, i []js.Value) interface{} {
 
 func EncryptOAEPBytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.EncryptOAEPBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.EncryptOAEPBytes(data, i[1].String(), i[2].String(), i[3].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 }
 
@@ -180,11 +192,15 @@ func EncryptPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func EncryptPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.EncryptPKCS1v15Bytes([]byte(i[0].String()), i[1].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.EncryptPKCS1v15Bytes(data, i[1].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 
 }
@@ -223,11 +239,15 @@ func SignPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func SignPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.SignPKCS1v15Bytes([]byte(i[0].String()), i[1].String(), i[2].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.SignPKCS1v15Bytes(data, i[1].String(), i[2].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 }
 
@@ -239,11 +259,15 @@ func SignPSS(this js.Value, i []js.Value) interface{} {
 
 func SignPSSBytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		output, err := instance.SignPSSBytes([]byte(i[0].String()), i[1].String(), i[2].String(), i[3].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		output, err := instance.SignPSSBytes(data, i[1].String(), i[2].String(), i[3].String())
 		if err != nil {
 			return result, err
 		}
-		return string(output), err
+		return base64.StdEncoding.EncodeToString(output), err
 	})
 }
 
@@ -255,7 +279,11 @@ func VerifyPKCS1v15(this js.Value, i []js.Value) interface{} {
 
 func VerifyPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.VerifyPKCS1v15Bytes([]byte(i[0].String()), []byte(i[1].String()), i[2].String(), i[3].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		return instance.VerifyPKCS1v15Bytes(data, []byte(i[1].String()), i[2].String(), i[3].String())
 	})
 }
 
@@ -267,7 +295,11 @@ func VerifyPSS(this js.Value, i []js.Value) interface{} {
 
 func VerifyPSSBytes(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
-		return instance.VerifyPSSBytes([]byte(i[0].String()), []byte(i[1].String()), i[2].String(), i[3].String(), i[4].String())
+		data, err := base64.StdEncoding.DecodeString(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+		return instance.VerifyPSSBytes(data, []byte(i[1].String()), i[2].String(), i[3].String(), i[4].String())
 	})
 }
 

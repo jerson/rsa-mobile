@@ -3,8 +3,9 @@ package rsa
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var jwkPrivateKey = `{
@@ -101,7 +102,7 @@ func TestFastRSA_ConvertJWKCustomKotlin(t *testing.T) {
 
 	assert.True(t, verified)
 
-	//kotlinStringToVerify:=`fpoY3ZYBwT45E3vNoN7HS96OdOSIiXt4lda0kFSq97i4PXx0-TMCki-wKG3LJUXoKX3f8wwU0LM4J76HEYL2pVpp9p9XpClvFeL6rbcz8Z4yAhvkqm9fNXla0lRAPEJhTA5RW71KskotVb9qJRjXqnlF0oiOfQE-RqyipvEsfSudzE1Y1C-mhxZXxuKYv4ZXmjyohbJpnINTEa3azgWXPgIkTCHw_1vpeadz0wupF1ortMOtQj1pXzen3X9B0BMJ3G_CScfmGY7O8q1EmL8fdtslNfQgOWyMUJhb5bfS2nxshzoH0RyxqNJBOG5JPLutIsNQNWdRRlhvXb9oWwvspTTU9zVYpFvL75xnD5iKL3Tj1nlgn_s7Goo-VgpqeyNklqe-dCuhmkegCp-TjB7JV-UV6st9986NrBaD4UJCYlMQq7KnyOsep_lrSG-UVS-pbIeMku-25afIob5l21GqmnLbHKu5SeLqpNZbw-9wHV0-EqGkD8dOG8ZUmMfFMzZASQpXREC8IdEiLhr-HThuc0I3wFgb1roxrrDwTYABchzq4wLUyXQjXb1iDQ5a1Gf5LGdFG3rik4jl2_q011JheI9HhWKBuYC5nERnSzhi0_quYByjKkwxHTSNm6tDeZGqQFFeuSKCxbOgGENZBrzyFguTNh6jgqg6WaC3uoy9swQ=`
+	//kotlinStringToVerify := `fpoY3ZYBwT45E3vNoN7HS96OdOSIiXt4lda0kFSq97i4PXx0-TMCki-wKG3LJUXoKX3f8wwU0LM4J76HEYL2pVpp9p9XpClvFeL6rbcz8Z4yAhvkqm9fNXla0lRAPEJhTA5RW71KskotVb9qJRjXqnlF0oiOfQE-RqyipvEsfSudzE1Y1C-mhxZXxuKYv4ZXmjyohbJpnINTEa3azgWXPgIkTCHw_1vpeadz0wupF1ortMOtQj1pXzen3X9B0BMJ3G_CScfmGY7O8q1EmL8fdtslNfQgOWyMUJhb5bfS2nxshzoH0RyxqNJBOG5JPLutIsNQNWdRRlhvXb9oWwvspTTU9zVYpFvL75xnD5iKL3Tj1nlgn_s7Goo-VgpqeyNklqe-dCuhmkegCp-TjB7JV-UV6st9986NrBaD4UJCYlMQq7KnyOsep_lrSG-UVS-pbIeMku-25afIob5l21GqmnLbHKu5SeLqpNZbw-9wHV0-EqGkD8dOG8ZUmMfFMzZASQpXREC8IdEiLhr-HThuc0I3wFgb1roxrrDwTYABchzq4wLUyXQjXb1iDQ5a1Gf5LGdFG3rik4jl2_q011JheI9HhWKBuYC5nERnSzhi0_quYByjKkwxHTSNm6tDeZGqQFFeuSKCxbOgGENZBrzyFguTNh6jgqg6WaC3uoy9swQ=`
 	//kotlinStringToVerifyBytes, err := base64.URLEncoding.DecodeString(kotlinStringToVerify)
 	//if err != nil {
 	//	t.Fatal(err)
