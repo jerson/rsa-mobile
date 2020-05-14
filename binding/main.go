@@ -159,13 +159,13 @@ func DecryptOAEP(ciphertext, label, hashName, privateKey *C.char) *C.char {
 }
 
 //export DecryptOAEPBytes
-func DecryptOAEPBytes(ciphertext unsafe.Pointer, label, hashName, privateKey *C.char) unsafe.Pointer {
-	result, err := instance.DecryptOAEPBytes(C.GoBytes(ciphertext, C.int(100)), C.GoString(label), C.GoString(hashName), C.GoString(privateKey))
+func DecryptOAEPBytes(ciphertext unsafe.Pointer, ciphertextSize C.int, label, hashName, privateKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.DecryptOAEPBytes(C.GoBytes(ciphertext, ciphertextSize), C.GoString(label), C.GoString(hashName), C.GoString(privateKey))
 	if err != nil {
 		errorThrow(err)
-		return nil
+		return nil, C.int(0)
 	}
-	return C.CBytes(result)
+	return C.CBytes(result), C.int(len(result))
 }
 
 //export DecryptPKCS1v15
@@ -178,6 +178,16 @@ func DecryptPKCS1v15(ciphertext, privateKey *C.char) *C.char {
 	return C.CString(result)
 }
 
+//export DecryptPKCS1v15Bytes
+func DecryptPKCS1v15Bytes(ciphertext unsafe.Pointer, ciphertextSize C.int, privateKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.DecryptPKCS1v15Bytes(C.GoBytes(ciphertext, ciphertextSize), C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return C.CBytes(result), C.int(0)
+	}
+	return C.CBytes(result), C.int(len(result))
+}
+
 //export EncryptOAEP
 func EncryptOAEP(message, label, hashName, publicKey *C.char) *C.char {
 	result, err := instance.EncryptOAEP(C.GoString(message), C.GoString(label), C.GoString(hashName), C.GoString(publicKey))
@@ -188,6 +198,16 @@ func EncryptOAEP(message, label, hashName, publicKey *C.char) *C.char {
 	return C.CString(result)
 }
 
+//export EncryptOAEPBytes
+func EncryptOAEPBytes(message unsafe.Pointer, messageSize C.int, label, hashName, publicKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.EncryptOAEPBytes(C.GoBytes(message, messageSize), C.GoString(label), C.GoString(hashName), C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil, C.int(0)
+	}
+	return C.CBytes(result), C.int(len(result))
+}
+
 //export EncryptPKCS1v15
 func EncryptPKCS1v15(message, publicKey *C.char) *C.char {
 	result, err := instance.EncryptPKCS1v15(C.GoString(message), C.GoString(publicKey))
@@ -196,6 +216,16 @@ func EncryptPKCS1v15(message, publicKey *C.char) *C.char {
 		return nil
 	}
 	return C.CString(result)
+}
+
+//export EncryptPKCS1v15Bytes
+func EncryptPKCS1v15Bytes(message unsafe.Pointer, messageSize C.int, publicKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.EncryptPKCS1v15Bytes(C.GoBytes(message, messageSize), C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil, C.int(0)
+	}
+	return C.CBytes(result), C.int(len(result))
 }
 
 //export Generate
@@ -240,6 +270,16 @@ func SignPKCS1v15(message, hashName, privateKey *C.char) *C.char {
 	return C.CString(result)
 }
 
+//export SignPKCS1v15Bytes
+func SignPKCS1v15Bytes(message unsafe.Pointer, messageSize C.int, hashName, privateKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.SignPKCS1v15Bytes(C.GoBytes(message, messageSize), C.GoString(hashName), C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil, C.int(0)
+	}
+	return C.CBytes(result), C.int(len(result))
+}
+
 //export SignPSS
 func SignPSS(message, hashName, saltLengthName, privateKey *C.char) *C.char {
 	result, err := instance.SignPSS(C.GoString(message), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(privateKey))
@@ -248,6 +288,16 @@ func SignPSS(message, hashName, saltLengthName, privateKey *C.char) *C.char {
 		return nil
 	}
 	return C.CString(result)
+}
+
+//export SignPSSBytes
+func SignPSSBytes(message unsafe.Pointer, messageSize C.int, hashName, saltLengthName, privateKey *C.char) (unsafe.Pointer, C.int) {
+	result, err := instance.SignPSSBytes(C.GoBytes(message, messageSize), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return nil, C.int(0)
+	}
+	return C.CBytes(result), C.int(len(result))
 }
 
 //export VerifyPKCS1v15
@@ -263,9 +313,35 @@ func VerifyPKCS1v15(signature, message, hashName, publicKey *C.char) *C.char {
 	return C.CString("")
 }
 
+//export VerifyPKCS1v15Bytes
+func VerifyPKCS1v15Bytes(signature unsafe.Pointer, signatureSize C.int, message unsafe.Pointer, messageSize C.int, hashName, publicKey *C.char) *C.char {
+	result, err := instance.VerifyPKCS1v15Bytes(C.GoBytes(signature, signatureSize), C.GoBytes(message, messageSize), C.GoString(hashName), C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	if result {
+		return C.CString("1")
+	}
+	return C.CString("")
+}
+
 //export VerifyPSS
 func VerifyPSS(signature, message, hashName, saltLengthName, publicKey *C.char) *C.char {
 	result, err := instance.VerifyPSS(C.GoString(signature), C.GoString(message), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return nil
+	}
+	if result {
+		return C.CString("1")
+	}
+	return C.CString("")
+}
+
+//export VerifyPSSBytes
+func VerifyPSSBytes(signature unsafe.Pointer, signatureSize C.int, message unsafe.Pointer, messageSize C.int, hashName, saltLengthName, publicKey *C.char) *C.char {
+	result, err := instance.VerifyPSSBytes(C.GoBytes(signature, signatureSize), C.GoBytes(message, messageSize), C.GoString(hashName), C.GoString(saltLengthName), C.GoString(publicKey))
 	if err != nil {
 		errorThrow(err)
 		return nil
