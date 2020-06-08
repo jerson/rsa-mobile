@@ -3,6 +3,8 @@ package main
 // #include <stdint.h>
 // typedef struct { char *privateKey; char *publicKey; } KeyPair;
 // typedef struct { char *privateKey; char *publicKey; char *certificate; } PKCS12KeyPair;
+// typedef struct { int bitLen; int size; char *error; } PrivateKeyInfo;
+// typedef struct { int bitLen; int size; int e; } PublicKeyInfo;
 import "C"
 import (
 	"fmt"
@@ -237,7 +239,28 @@ func Generate(nBits int) C.KeyPair {
 
 	}
 	return C.KeyPair{C.CString(result.PrivateKey), C.CString(result.PublicKey)}
+}
 
+//export MetadataPrivateKey
+func MetadataPrivateKey(privateKey *C.char) C.PrivateKeyInfo {
+	result, err := instance.MetadataPrivateKey(C.GoString(privateKey))
+	if err != nil {
+		errorThrow(err)
+		return C.PrivateKeyInfo{C.int(0), C.int(0), C.CString("")}
+
+	}
+	return C.PrivateKeyInfo{C.int(result.BitLen), C.int(result.Size), C.CString(result.Error)}
+}
+
+//export MetadataPublicKey
+func MetadataPublicKey(publicKey *C.char) C.PublicKeyInfo {
+	result, err := instance.MetadataPublicKey(C.GoString(publicKey))
+	if err != nil {
+		errorThrow(err)
+		return C.PublicKeyInfo{C.int(0), C.int(0), C.int(0)}
+
+	}
+	return C.PublicKeyInfo{C.int(result.BitLen), C.int(result.Size), C.int(result.E)}
 }
 
 //export Hash

@@ -30,6 +30,7 @@ func (r *FastRSA) decryptPKCS1v15(ciphertext []byte, privateKey string) ([]byte,
 	if err != nil {
 		return nil, err
 	}
+
 	output, err := rsa.DecryptPKCS1v15(rand.Reader, private, ciphertext)
 	if err != nil {
 		return nil, err

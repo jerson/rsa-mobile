@@ -219,6 +219,36 @@ func Generate(this js.Value, i []js.Value) interface{} {
 	})
 }
 
+func MetadataPrivateKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		resultMetadata, err := instance.MetadataPrivateKey(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+
+		return map[string]interface{}{
+			"bitLen": resultMetadata.BitLen,
+			"size":   resultMetadata.Size,
+			"error":  resultMetadata.Error,
+		}, err
+	})
+}
+
+func MetadataPublicKey(this js.Value, i []js.Value) interface{} {
+	return Promise(i, func() (result interface{}, err error) {
+		resultMetadata, err := instance.MetadataPublicKey(i[0].String())
+		if err != nil {
+			return nil, err
+		}
+
+		return map[string]interface{}{
+			"bitLen": resultMetadata.BitLen,
+			"size":   resultMetadata.Size,
+			"e":      resultMetadata.E,
+		}, err
+	})
+}
+
 func Hash(this js.Value, i []js.Value) interface{} {
 	return Promise(i, func() (result interface{}, err error) {
 		return instance.Hash(i[0].String(), i[1].String())
@@ -326,6 +356,8 @@ func registerCallbacks() {
 	js.Global().Set("RSAEncryptPKCS1v15", js.FuncOf(EncryptPKCS1v15))
 	js.Global().Set("RSAEncryptPKCS1v15Bytes", js.FuncOf(EncryptPKCS1v15Bytes))
 	js.Global().Set("RSAGenerate", js.FuncOf(Generate))
+	js.Global().Set("RSAMetadataPrivateKey", js.FuncOf(MetadataPrivateKey))
+	js.Global().Set("RSAMetadataPublicKey", js.FuncOf(MetadataPublicKey))
 	js.Global().Set("RSAHash", js.FuncOf(Hash))
 	js.Global().Set("RSASignPKCS1v15", js.FuncOf(SignPKCS1v15))
 	js.Global().Set("RSASignPKCS1v15Bytes", js.FuncOf(SignPKCS1v15Bytes))
