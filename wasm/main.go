@@ -313,7 +313,11 @@ func VerifyPKCS1v15Bytes(this js.Value, i []js.Value) interface{} {
 		if err != nil {
 			return nil, err
 		}
-		return instance.VerifyPKCS1v15Bytes(data, []byte(i[1].String()), i[2].String(), i[3].String())
+		data1, err := base64.StdEncoding.DecodeString(i[1].String())
+		if err != nil {
+			return nil, err
+		}
+		return instance.VerifyPKCS1v15Bytes(data, data1, i[2].String(), i[3].String())
 	})
 }
 
@@ -329,7 +333,11 @@ func VerifyPSSBytes(this js.Value, i []js.Value) interface{} {
 		if err != nil {
 			return nil, err
 		}
-		return instance.VerifyPSSBytes(data, []byte(i[1].String()), i[2].String(), i[3].String(), i[4].String())
+		data1, err := base64.StdEncoding.DecodeString(i[1].String())
+		if err != nil {
+			return nil, err
+		}
+		return instance.VerifyPSSBytes(data, data1, i[2].String(), i[3].String(), i[4].String())
 	})
 }
 
