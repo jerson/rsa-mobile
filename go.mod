@@ -3,15 +3,20 @@ module github.com/jerson/rsa-mobile
 go 1.13
 
 require (
-	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/kr/text v0.2.0 // indirect
+	github.com/golang/protobuf v1.4.2
 	github.com/lestrrat-go/jwx v1.0.2
-	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/stretchr/testify v1.5.1
-	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
-	golang.org/x/mobile v0.0.0-20200329125638-4c31acba0007 // indirect
-	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
+	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
+	golang.org/x/mobile v0.0.0-20200801112145-973feb4309de // indirect
 	software.sslmate.com/src/go-pkcs12 v0.0.0-20200408181440-2981468c0ff3
 )
+
+replace github.com/golang/protobuf => github.com/golang/protobuf v1.4.2
+
+replace github.com/lestrrat-go/jwx => github.com/lestrrat-go/jwx v1.0.2
+
+replace github.com/stretchr/testify => github.com/stretchr/testify v1.5.1
+
+replace software.sslmate.com/src/go-pkcs12 => software.sslmate.com/src/go-pkcs12 v0.0.0-20200408181440-2981468c0ff3
+
+replace golang.org/x/crypto => golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897

@@ -1,0 +1,5 @@
+.PHONY: wasm
+wasm:
+	mkdir -p output/wasm
+	GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o output/wasm/rsa.wasm wasm/main.go
+	cp output/wasm/rsa.wasm wasm/sample/public/rsa.wasm

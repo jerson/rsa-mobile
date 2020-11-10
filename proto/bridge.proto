@@ -1,0 +1,32 @@
+syntax = "proto3";
+package model;
+
+option go_package = ".;model";
+
+message EncryptRequest {
+  string message = 1;
+  string publicKey = 3;
+}
+
+enum Hash {
+  HASH_UNSPECIFIED = 0;
+  HASH_SHA256 = 1;
+  HASH_SHA224 = 2;
+  HASH_SHA384 = 3;
+  HASH_SHA512 = 4;
+}
+
+////////////// RESPONSE BELOW THIS LINE ///////////////
+
+message StringResponse {
+  string output = 1;
+  string error = 3;
+}
+message BytesResponse {
+  bytes output = 1;
+  string error = 3;
+}
+message BoolResponse {
+  bool output = 1;
+  string error = 3;
+}
