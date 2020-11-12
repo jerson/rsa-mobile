@@ -15,6 +15,11 @@ jobs:
         with:
           java-version: 1.8
       - uses: android-actions/setup-android@v2
+        run: |
+          sdkmanager "platform-tools"
+          sdkmanager "extras;android;m2repository" "extras;google;google_play_services" "extras;google;m2repository"
+          sdkmanager "platforms;android-29"
+          sdkmanager "build-tools;29.0.2"
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
@@ -26,7 +31,6 @@ jobs:
         run: make gomobile
       - name: Build
         run: |
-          export ANDROID_HOME=~/.android/sdk
           export ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
           export ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
           make gomobile_android
@@ -35,18 +39,18 @@ jobs:
           name: output
           path: output
 
-  ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '^1.15'
-      - name: Install Gomobile
-        run: make gomobile
-      - name: Build
-        run: make gomobile_ios
-      - uses: actions/upload-artifact@v1
-        with:
-          name: output
-          path: output
+#  ios:
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-go@v2
+#        with:
+#          go-version: '^1.15'
+#      - name: Install Gomobile
+#        run: make gomobile
+#      - name: Build
+#        run: make gomobile_ios
+#      - uses: actions/upload-artifact@v1
+#        with:
+#          name: output
+#          path: output
