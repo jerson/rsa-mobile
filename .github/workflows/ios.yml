@@ -14,10 +14,11 @@ jobs:
       - name: Build
         run: make binding_ios
       - name: Compress
-        run: tar -czvf ios_librsa_bridge.tar.gz output/binding/ios
+        run: tar -czvf output.tar.gz -C output/binding/ios .
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ios_librsa_bridge.tar.gz
+          asset_name: ios_librsa_bridge_$tag.tar.gz
+          file: output.tar.gz
           tag: ${{ github.ref }}
           overwrite: true

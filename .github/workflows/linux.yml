@@ -12,10 +12,11 @@ jobs:
       - name: Build
         run: make binding_linux
       - name: Compress
-        run: tar -czvf linux_librsa_bridge.tar.gz output/binding/linux
+        run: tar -czvf output.tar.gz -C output/binding/linux .
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: linux_librsa_bridge.tar.gz
+          asset_name: linux_librsa_bridge_$tag.tar.gz
+          file: output.tar.gz
           tag: ${{ github.ref }}
           overwrite: true

@@ -14,10 +14,11 @@ jobs:
       - name: Build
         run: make wasm
       - name: Compress
-        run: tar -czvf wasm_rsa_bridge.tar.gz output/wasm
+        run: tar -czvf output.tar.gz -C output/wasm .
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: wasm_rsa_bridge.tar.gz
+          asset_name: wasm_rsa_bridge_$tag.tar.gz
+          file: output.tar.gz
           tag: ${{ github.ref }}
           overwrite: true

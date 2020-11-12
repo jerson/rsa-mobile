@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: scottbrenner/generate-changelog-action@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
+      - uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        id: changelog
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -25,6 +25,6 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            ${{ steps.Changelog.outputs.changelog }}
+            ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false

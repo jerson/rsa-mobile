@@ -14,10 +14,11 @@ jobs:
       - name: Build
         run: make binding_darwin
       - name: Compress
-        run: tar -czvf darwin_librsa_bridge.tar.gz output/binding/darwin
+        run: tar -czvf output.tar.gz -C output/binding/darwin .
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: darwin_librsa_bridge.tar.gz
+          asset_name: darwin_librsa_bridge_$tag.tar.gz
+          file: output.tar.gz
           tag: ${{ github.ref }}
           overwrite: true

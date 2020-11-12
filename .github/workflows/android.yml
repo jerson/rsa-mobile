@@ -25,11 +25,12 @@ jobs:
           export ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
           make binding_android
       - name: Compress
-        run: tar -czvf android_librsa_bridge.tar.gz output/binding/android
+        run: tar -czvf output.tar.gz -C output/binding/android .
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: android_librsa_bridge.tar.gz
+          asset_name: android_librsa_bridge_$tag.tar.gz
+          file: output.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
 
