@@ -13,7 +13,12 @@ jobs:
           go-version: '^1.15'
       - name: Build
         run: make wasm
-      - uses: actions/upload-artifact@v1
+      - uses: montudor/action-zip@v0.1.0
         with:
-          name: output
-          path: output
+          args: zip -qq -r wasm_rsa_bridge.zip output/wasm
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: wasm_rsa_bridge.zip
+          tag: ${{ github.ref }}
+          overwrite: true

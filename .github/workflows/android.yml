@@ -24,8 +24,13 @@ jobs:
           export ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
           export ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
           make binding_android
-      - uses: actions/upload-artifact@v1
+      - uses: montudor/action-zip@v0.1.0
         with:
-          name: output
-          path: output
+          args: zip -qq -r android_librsa_bridge.zip output/binding/android
+      - uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: android_librsa_bridge.zip
+          tag: ${{ github.ref }}
+          overwrite: true
 
