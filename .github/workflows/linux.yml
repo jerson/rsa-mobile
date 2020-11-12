@@ -1,0 +1,17 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  binding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker-practice/actions-setup-docker@master
+      - name: Build
+        run: make binding_linux
+      - uses: actions/upload-artifact@v1
+        with:
+          name: output
+          path: output
