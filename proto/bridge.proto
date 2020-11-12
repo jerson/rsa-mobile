@@ -176,7 +176,7 @@ message BoolResponse {
   string error = 3;
 }
 message PKCS12KeyPairResponse {
-  PKCS12KeyPair keyPair = 1;
+  PKCS12KeyPair output = 1;
   string error = 3;
 }
 message PKCS12KeyPair{
@@ -185,7 +185,7 @@ message PKCS12KeyPair{
   string certificate = 3;
 }
 message KeyPairResponse {
-  KeyPair keyPair = 1;
+  KeyPair output = 1;
   string error = 3;
 }
 message KeyPair{
@@ -193,7 +193,7 @@ message KeyPair{
   string publicKey = 2;
 }
 message PrivateKeyInfoResponse {
-  PrivateKeyInfo info = 1;
+  PrivateKeyInfo output = 1;
   string error = 3;
 }
 message PrivateKeyInfo{
@@ -202,7 +202,7 @@ message PrivateKeyInfo{
   string error = 5;
 }
 message PublicKeyInfoResponse {
-  PublicKeyInfo info = 1;
+  PublicKeyInfo output = 1;
   string error = 3;
 }
 message PublicKeyInfo{
