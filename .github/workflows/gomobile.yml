@@ -1,10 +1,7 @@
-#on:
-#  push:
-#    tags:
-#      - "v*"
 on:
   push:
-    branches: [ master ]
+    tags:
+      - "v*"
 
 jobs:
   android:
@@ -15,7 +12,8 @@ jobs:
         with:
           java-version: 1.8
       - uses: android-actions/setup-android@v2
-      - uses: nttld/setup-ndk@v1
+      - uses: nttld/setup-ndk@v1ç
+        id: setup-ndk
         with:
           ndk-version: r21d
       - uses: actions/setup-go@v2
