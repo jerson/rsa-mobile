@@ -15,9 +15,9 @@ jobs:
         with:
           java-version: 1.8
       - uses: android-actions/setup-android@v2
+      - name: Install Android Platform
         run: |
           sdkmanager "platform-tools"
-          sdkmanager "extras;android;m2repository" "extras;google;google_play_services" "extras;google;m2repository"
           sdkmanager "platforms;android-29"
           sdkmanager "build-tools;29.0.2"
       - uses: nttld/setup-ndk@v1
