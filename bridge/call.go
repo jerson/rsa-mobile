@@ -480,20 +480,23 @@ func (m instance) encryptPrivateKey(payload []byte) proto.Message {
 }
 
 func (m instance) generate(payload []byte) proto.Message {
-	response := &model.StringResponse{}
-	request := &model.EncryptPrivateKeyRequest{}
+	response := &model.KeyPairResponse{}
+	request := &model.GenerateRequest{}
 	err := proto.Unmarshal(payload, request)
 	if err != nil {
 		response.Error = err.Error()
 		return response
 	}
 
-	output, err := m.instance.EncryptPrivateKey(request.PrivateKey, request.Password, m.parsePEMCipher(request.Cipher))
+	output, err := m.instance.Generate(int(request.NBits))
 	if err != nil {
 		response.Error = err.Error()
 		return response
 	}
-	response.Output = output
+	response.Output = &model.KeyPair{
+		PrivateKey: output.PrivateKey,
+		PublicKey:  output.PublicKey,
+	}
 	return response
 }
 
@@ -517,14 +520,14 @@ func (m instance) hash(payload []byte) proto.Message {
 
 func (m instance) base64(payload []byte) proto.Message {
 	response := &model.StringResponse{}
-	request := &model.HashRequest{}
+	request := &model.Base64Request{}
 	err := proto.Unmarshal(payload, request)
 	if err != nil {
 		response.Error = err.Error()
 		return response
 	}
 
-	output, err := m.instance.Hash(request.Message, m.parseHash(request.Hash))
+	output, err := m.instance.Base64(request.Message)
 	if err != nil {
 		response.Error = err.Error()
 		return response
