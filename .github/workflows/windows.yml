@@ -11,12 +11,11 @@ jobs:
       - uses: docker-practice/actions-setup-docker@master
       - name: Build
         run: make binding_windows
-      - uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r windows_librsa_bridge.zip output/binding/windows
+      - name: Compress
+        run: tar -czvf windows_librsa_bridge.tar.gz output/binding/windows
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: windows_librsa_bridge.zip
+          file: windows_librsa_bridge.tar.gz
           tag: ${{ github.ref }}
           overwrite: true

@@ -31,13 +31,12 @@ jobs:
           export ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
           export ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
           make gomobile_android
-      - uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r android_aar.zip output/android
+      - name: Compress
+        run: tar -czvf android_aar.tar.gz output/android
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: android_aar.zip
+          file: android_aar.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -52,12 +51,11 @@ jobs:
         run: make gomobile
       - name: Build
         run: make gomobile_ios
-      - uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r ios_framework.zip output/ios
+      - name: Compress
+        run: tar -czvf ios_framework.tar.gz output/ios
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ios_framework.zip
+          file: ios_framework.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
