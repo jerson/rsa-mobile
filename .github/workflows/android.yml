@@ -24,9 +24,9 @@ jobs:
           go-version: '^1.15'
       - name: Build
         run: |
-          ANDROID_HOME=~/.android/sdk
-          ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
-          ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
+          export ANDROID_HOME=~/.android/sdk
+          export ANDROID_NDK_HOME=${{ steps.setup-ndk.outputs.ndk-path }}
+          export ANDROID_NDK_TOOLCHAIN=${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
           make binding_android
       - uses: actions/upload-artifact@v1
         with:
