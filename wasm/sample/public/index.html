@@ -1,22 +1,18 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <script src="wasm_exec.js"></script>
-    <script>
-        const go = new Go();
-        let mod, inst;
-        WebAssembly.instantiateStreaming(fetch("rsa.wasm"), go.importObject).then(
-            async result => {
-                mod = result.module;
-                inst = result.instance;
-                await go.run(inst);
-            }
-        );
-    </script>
+    <script src="https://unpkg.com/pbf@3.0.5/dist/pbf.js"></script>
+    <script src="bridge_pb.js"></script>
+    <script src="caller.js"></script>
+
 </head>
 <body>
-<button onClick="RSAHash('sample','sha512',(err,result)=>{ alert('Hash: '+result)});">Hash: Sha512</button>
-<button onClick="RSAGenerate(1024,(err,result)=>{ alert('PublicKet: '+result.publicKey)});">Generate KeyPair</button>
+<script>
+
+</script>
+<button onClick="sample();">
+    Send Request
+</button>
 
 </body>
 </html>
