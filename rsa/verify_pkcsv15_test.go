@@ -1,6 +1,7 @@
 package rsa
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -14,4 +15,13 @@ func TestFastRSA_VerifyPKCS1v15(t *testing.T) {
 	}
 
 	t.Log("output:", output)
+}
+
+func TestFastRSA_VerifyPKCS1v15WrongKey(t *testing.T) {
+
+	instance := NewFastRSA()
+
+	_, err := instance.VerifyPKCS1v15(signed, inputMessage, "sha512", "nop")
+	assert.Error(t, err)
+
 }

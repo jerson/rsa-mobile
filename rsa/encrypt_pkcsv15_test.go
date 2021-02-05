@@ -17,9 +17,7 @@ func TestFastRSA_EncryptPKCS1v15(t *testing.T) {
 }
 
 func TestFastRSA_EncryptPKCS1v15WrongKey(t *testing.T) {
-
 	instance := NewFastRSA()
 	_, err := instance.EncryptPKCS1v15(inputMessage, "nop")
 	assert.Error(t, err)
-
 }
