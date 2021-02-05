@@ -13,6 +13,9 @@ import (
 func (r *FastRSA) readPrivateKey(privateKey string) (*rsa.PrivateKey, error) {
 
 	privateBlock, _ := pem.Decode([]byte(privateKey))
+	if privateBlock == nil {
+		return nil, errors.New("invalid private key")
+	}
 
 	if privateKeyCert, err := x509.ParsePKCS1PrivateKey(privateBlock.Bytes); err == nil {
 		return privateKeyCert, nil
@@ -27,6 +30,9 @@ func (r *FastRSA) readPrivateKey(privateKey string) (*rsa.PrivateKey, error) {
 func (r *FastRSA) readPublicKey(publicKey string) (*rsa.PublicKey, error) {
 
 	publicBlock, _ := pem.Decode([]byte(publicKey))
+	if publicBlock == nil {
+		return nil, errors.New("invalid public key")
+	}
 
 	if publicKeyCert, err := x509.ParsePKCS1PublicKey(publicBlock.Bytes); err == nil {
 		return publicKeyCert, nil
