@@ -2,7 +2,7 @@ package rsaBridge
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/proto"
+	"github.com/gogo/protobuf/proto"
 	"github.com/jerson/rsa-mobile/bridge/model"
 	"github.com/jerson/rsa-mobile/rsa"
 )

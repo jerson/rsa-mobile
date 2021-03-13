@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.14.13'
-          # using this version to support more Architectures in the fat file: Openpgp are: armv7 i386 x86_64 arm64
+          # using this version to support more Architectures in the fat file: Rsa are: armv7 i386 x86_64 arm64
       - name: Install Gomobile
         run: |
           go get -u golang.org/x/mobile/cmd/gomobile@33b80540585f2b31e503da24d6b2a02de3c53ff5
