@@ -1,20 +1,26 @@
 const myWorker = new Worker('worker.js');
 
 const sample = async () => {
+    const builder = new flatbuffers.Builder(0);
 
-    let pbf = new Pbf();
-    GenerateRequest.write({
-        nBits: 1024
-    }, pbf)
-    const buf = pbf.finish()
-    console.log('request', buf);
-    const rawResponse = await send('generate', buf)
+    model.GenerateRequest.startGenerateRequest(builder);
+    model.GenerateRequest.addNBits(builder, 2048);
+    const offset = model.GenerateRequest.endGenerateRequest(builder);
+    builder.finish(offset);
 
-    const response = KeyPairResponse.read(new Pbf(rawResponse))
-    if (response.error) {
-        throw new Error(response.error)
+    const bytes = builder.asUint8Array()
+
+    console.log('request', bytes);
+    const rawResponse = await send('generate', bytes)
+
+    const responseBuffer = new flatbuffers.ByteBuffer(rawResponse);
+    const response = model.KeyPairResponse.getRootAsKeyPairResponse(responseBuffer, null)
+    if (response.error()) {
+        throw new Error(response.error())
     }
-    console.log('response', response.output);
+    const output =  response.output()
+    console.log('privateKey', output.privateKey());
+    console.log('publicKey', output.publicKey());
 }
 
 let counter = 0;
