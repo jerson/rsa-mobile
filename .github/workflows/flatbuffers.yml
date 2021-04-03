@@ -34,12 +34,12 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          asset_name: flatbuffers_libopenpgp_bridge_${{ matrix.language }}_$tag.tar.gz
+          asset_name: flatbuffers_rsa_bridge_${{ matrix.language }}_$tag.tar.gz
           file: output.tar.gz
           tag: ${{ env.VERSION }}
           overwrite: true
       - if: ${{ env.VERSION=='' }}
         uses: actions/upload-artifact@v2
         with:
-          name: flatbuffers_libopenpgp_bridge_${{ matrix.language }}
+          name: flatbuffers_rsa_bridge_${{ matrix.language }}
           path: output.tar.gz
