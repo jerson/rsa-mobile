@@ -553,7 +553,7 @@ func (m instance) _keyPairResponse(response *flatbuffers.Builder, output *rsa.Ke
 
 	publicKeyOffset := response.CreateString(output.PublicKey)
 	privateKeyOffset := response.CreateString(output.PrivateKey)
-	
+
 	model.KeyPairStart(response)
 	model.KeyPairAddPublicKey(response, publicKeyOffset)
 	model.KeyPairAddPrivateKey(response, privateKeyOffset)
