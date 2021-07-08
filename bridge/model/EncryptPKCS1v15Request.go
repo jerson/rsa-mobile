@@ -17,6 +17,13 @@ func GetRootAsEncryptPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *E
 	return x
 }
 
+func GetSizePrefixedRootAsEncryptPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *EncryptPKCS1v15Request {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &EncryptPKCS1v15Request{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *EncryptPKCS1v15Request) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

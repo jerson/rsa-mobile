@@ -17,6 +17,13 @@ func GetRootAsVerifyPSSRequest(buf []byte, offset flatbuffers.UOffsetT) *VerifyP
 	return x
 }
 
+func GetSizePrefixedRootAsVerifyPSSRequest(buf []byte, offset flatbuffers.UOffsetT) *VerifyPSSRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &VerifyPSSRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *VerifyPSSRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

@@ -17,6 +17,13 @@ func GetRootAsDecryptPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) 
 	return x
 }
 
+func GetSizePrefixedRootAsDecryptPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) *DecryptPrivateKeyRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &DecryptPrivateKeyRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *DecryptPrivateKeyRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

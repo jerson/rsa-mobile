@@ -17,6 +17,13 @@ func GetRootAsBase64Request(buf []byte, offset flatbuffers.UOffsetT) *Base64Requ
 	return x
 }
 
+func GetSizePrefixedRootAsBase64Request(buf []byte, offset flatbuffers.UOffsetT) *Base64Request {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Base64Request{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *Base64Request) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

@@ -17,6 +17,13 @@ func GetRootAsPKCS12KeyPair(buf []byte, offset flatbuffers.UOffsetT) *PKCS12KeyP
 	return x
 }
 
+func GetSizePrefixedRootAsPKCS12KeyPair(buf []byte, offset flatbuffers.UOffsetT) *PKCS12KeyPair {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &PKCS12KeyPair{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *PKCS12KeyPair) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

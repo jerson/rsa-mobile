@@ -17,6 +17,13 @@ func GetRootAsConvertPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) 
 	return x
 }
 
+func GetSizePrefixedRootAsConvertPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) *ConvertPrivateKeyRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &ConvertPrivateKeyRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *ConvertPrivateKeyRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

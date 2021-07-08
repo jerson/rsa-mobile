@@ -17,6 +17,13 @@ func GetRootAsPublicKeyInfoResponse(buf []byte, offset flatbuffers.UOffsetT) *Pu
 	return x
 }
 
+func GetSizePrefixedRootAsPublicKeyInfoResponse(buf []byte, offset flatbuffers.UOffsetT) *PublicKeyInfoResponse {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &PublicKeyInfoResponse{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *PublicKeyInfoResponse) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

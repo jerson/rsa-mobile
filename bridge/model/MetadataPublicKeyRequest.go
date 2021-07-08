@@ -17,6 +17,13 @@ func GetRootAsMetadataPublicKeyRequest(buf []byte, offset flatbuffers.UOffsetT) 
 	return x
 }
 
+func GetSizePrefixedRootAsMetadataPublicKeyRequest(buf []byte, offset flatbuffers.UOffsetT) *MetadataPublicKeyRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &MetadataPublicKeyRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *MetadataPublicKeyRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

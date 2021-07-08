@@ -17,6 +17,13 @@ func GetRootAsConvertJWTRequest(buf []byte, offset flatbuffers.UOffsetT) *Conver
 	return x
 }
 
+func GetSizePrefixedRootAsConvertJWTRequest(buf []byte, offset flatbuffers.UOffsetT) *ConvertJWTRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &ConvertJWTRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *ConvertJWTRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i

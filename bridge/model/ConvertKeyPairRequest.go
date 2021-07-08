@@ -17,6 +17,13 @@ func GetRootAsConvertKeyPairRequest(buf []byte, offset flatbuffers.UOffsetT) *Co
 	return x
 }
 
+func GetSizePrefixedRootAsConvertKeyPairRequest(buf []byte, offset flatbuffers.UOffsetT) *ConvertKeyPairRequest {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &ConvertKeyPairRequest{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *ConvertKeyPairRequest) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
