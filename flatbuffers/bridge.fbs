@@ -1,0 +1,244 @@
+// Generated from bridge.proto
+
+namespace model;
+
+enum SaltLength : int {
+  AUTO = 0,
+  EQUALS_HASH = 1,
+}
+
+enum PEMCipher : int {
+  DES = 0,
+  D3DES = 1,
+  AES128 = 2,
+  AES192 = 3,
+  AES256 = 4,
+}
+
+enum Hash : int {
+  MD5 = 0,
+  SHA1 = 1,
+  SHA224 = 2,
+  SHA256 = 3,
+  SHA384 = 4,
+  SHA512 = 5,
+}
+
+table ConvertJWTRequest {
+  data:string;
+  keyId:string;
+}
+
+table ConvertKeyPairRequest {
+  privateKey:string;
+  certificate:string;
+  password:string;
+}
+
+table ConvertPKCS12Request {
+  pkcs12:string;
+  password:string;
+}
+
+table ConvertPrivateKeyRequest {
+  privateKey:string;
+}
+
+table ConvertPublicKeyRequest {
+  publicKey:string;
+}
+
+table DecryptOAEPRequest {
+  ciphertext:string;
+  label:string;
+  hash:model.Hash;
+  privateKey:string;
+}
+
+table DecryptOAEPBytesRequest {
+  ciphertext:[ubyte];
+  label:string;
+  hash:model.Hash;
+  privateKey:string;
+}
+
+table DecryptPKCS1v15Request {
+  ciphertext:string;
+  privateKey:string;
+}
+
+table DecryptPKCS1v15BytesRequest {
+  ciphertext:[ubyte];
+  privateKey:string;
+}
+
+table DecryptPrivateKeyRequest {
+  privateKeyEncrypted:string;
+  password:string;
+}
+
+table EncryptOAEPRequest {
+  message:string;
+  label:string;
+  hash:model.Hash;
+  publicKey:string;
+}
+
+table EncryptOAEPBytesRequest {
+  message:[ubyte];
+  label:string;
+  hash:model.Hash;
+  publicKey:string;
+}
+
+table EncryptPKCS1v15Request {
+  message:string;
+  publicKey:string;
+}
+
+table EncryptPKCS1v15BytesRequest {
+  message:[ubyte];
+  publicKey:string;
+}
+
+table EncryptPrivateKeyRequest {
+  privateKey:string;
+  password:string;
+  cipher:model.PEMCipher;
+}
+
+table GenerateRequest {
+  nBits:int;
+}
+
+table HashRequest {
+  message:string;
+  hash:model.Hash;
+}
+
+table Base64Request {
+  message:string;
+}
+
+table MetadataPrivateKeyRequest {
+  privateKey:string;
+}
+
+table MetadataPublicKeyRequest {
+  publicKey:string;
+}
+
+table SignPKCS1v15Request {
+  message:string;
+  hash:model.Hash;
+  privateKey:string;
+}
+
+table SignPKCS1v15BytesRequest {
+  message:[ubyte];
+  hash:model.Hash;
+  privateKey:string;
+}
+
+table SignPSSRequest {
+  message:string;
+  hash:model.Hash;
+  saltLength:model.SaltLength;
+  privateKey:string;
+}
+
+table SignPSSBytesRequest {
+  message:[ubyte];
+  hash:model.Hash;
+  saltLength:model.SaltLength;
+  privateKey:string;
+}
+
+table VerifyPKCS1v15Request {
+  signature:string;
+  message:string;
+  hash:model.Hash;
+  publicKey:string;
+}
+
+table VerifyPKCS1v15BytesRequest {
+  signature:[ubyte];
+  message:[ubyte];
+  hash:model.Hash;
+  publicKey:string;
+}
+
+table VerifyPSSRequest {
+  signature:string;
+  message:string;
+  hash:model.Hash;
+  saltLength:model.SaltLength;
+  publicKey:string;
+}
+
+table VerifyPSSBytesRequest {
+  signature:[ubyte];
+  message:[ubyte];
+  hash:model.Hash;
+  saltLength:model.SaltLength;
+  publicKey:string;
+}
+
+table StringResponse {
+  output:string;
+  error:string;
+}
+
+table BytesResponse {
+  output:[ubyte];
+  error:string;
+}
+
+table BoolResponse {
+  output:bool;
+  error:string;
+}
+
+table PKCS12KeyPairResponse {
+  output:model.PKCS12KeyPair;
+  error:string;
+}
+
+table PKCS12KeyPair {
+  privateKey:string;
+  publicKey:string;
+  certificate:string;
+}
+
+table KeyPairResponse {
+  output:model.KeyPair;
+  error:string;
+}
+
+table KeyPair {
+  privateKey:string;
+  publicKey:string;
+}
+
+table PrivateKeyInfoResponse {
+  output:model.PrivateKeyInfo;
+  error:string;
+}
+
+table PrivateKeyInfo {
+  bitLen:long;
+  size:long;
+  error:string;
+}
+
+table PublicKeyInfoResponse {
+  output:model.PublicKeyInfo;
+  error:string;
+}
+
+table PublicKeyInfo {
+  bitLen:long;
+  size:long;
+  e:long;
+}
+
