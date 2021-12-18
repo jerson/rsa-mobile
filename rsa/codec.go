@@ -1,6 +1,7 @@
 package rsa
 
 import (
+	"bufio"
 	"bytes"
 	"crypto"
 	"crypto/md5"
@@ -30,27 +31,19 @@ const (
 	PrivateKeyFormatTypePKCS8
 )
 
-func getPrivateKeyFormatType(format string) PrivateKeyFormatType {
-	switch format {
-	case "pkcs8":
-		return PrivateKeyFormatTypePKCS8
-	case "pkcs1":
-		return PrivateKeyFormatTypePKCS1
-	default:
-		return PrivateKeyFormatTypePKCS1
-	}
-}
+type HeaderPublicKeyType string
 
-func getPublicKeyFormatType(format string) PublicKeyFormatType {
-	switch format {
-	case "pkix":
-		return PublicKeyFormatTypePKIX
-	case "pkcs1":
-		return PublicKeyFormatTypePKCS1
-	default:
-		return PublicKeyFormatTypePKCS1
-	}
-}
+const (
+	HeaderPublicKeyPKCS1 = HeaderPublicKeyType("RSA PUBLIC KEY")
+	HeaderPublicKeyPKIX  = HeaderPublicKeyType("PUBLIC KEY")
+)
+
+type HeaderPrivateKeyType string
+
+const (
+	HeaderPrivateKeyPKCS1 = HeaderPrivateKeyType("RSA PRIVATE KEY")
+	HeaderPrivateKeyPKCS8 = HeaderPrivateKeyType("PRIVATE KEY")
+)
 
 func getSaltLength(length string) int {
 	switch length {
@@ -117,6 +110,28 @@ func getPEMCipher(name string) x509.PEMCipher {
 	}
 }
 
+func getPublicKeyHeaderByType(formatType PublicKeyFormatType) string {
+	switch formatType {
+	case PublicKeyFormatTypePKIX:
+		return string(HeaderPublicKeyPKIX)
+	case PublicKeyFormatTypePKCS1:
+		fallthrough
+	default:
+		return string(HeaderPublicKeyPKCS1)
+	}
+}
+
+func getPrivateKeyHeaderByType(formatType PrivateKeyFormatType) string {
+	switch formatType {
+	case PrivateKeyFormatTypePKCS8:
+		return string(HeaderPrivateKeyPKCS8)
+	case PrivateKeyFormatTypePKCS1:
+		fallthrough
+	default:
+		return string(HeaderPrivateKeyPKCS1)
+	}
+}
+
 func encodePublicKey(publicKey interface{}, formatType PublicKeyFormatType) ([]byte, error) {
 
 	var pemBytes []byte
@@ -140,12 +155,12 @@ func encodePublicKey(publicKey interface{}, formatType PublicKeyFormatType) ([]b
 		}
 		break
 	}
-	return pem.EncodeToMemory(
+	return encodePem(
 		&pem.Block{
-			Type:  "PUBLIC KEY",
+			Type:  getPublicKeyHeaderByType(formatType),
 			Bytes: pemBytes,
 		},
-	), nil
+	)
 }
 
 func encodePrivateKey(privateKey interface{}, formatType PrivateKeyFormatType) ([]byte, error) {
@@ -173,12 +188,25 @@ func encodePrivateKey(privateKey interface{}, formatType PrivateKeyFormatType) (
 		break
 	}
 
-	return pem.EncodeToMemory(
+	return encodePem(
 		&pem.Block{
-			Type:  "RSA PRIVATE KEY",
+			Type:  getPrivateKeyHeaderByType(formatType),
 			Bytes: pemBytes,
 		},
-	), nil
+	)
+}
+
+// encodePem thanks to @patachi
+func encodePem(b *pem.Block) ([]byte, error) {
+	buf := new(bytes.Buffer)
+	w := bufio.NewWriter(buf)
+	if err := pem.Encode(w, b); err != nil {
+		return nil, err
+	}
+	if err := w.Flush(); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
 func publicFromPrivate(privateKey interface{}) (interface{}, error) {
@@ -191,9 +219,8 @@ func publicFromPrivate(privateKey interface{}) (interface{}, error) {
 
 }
 
-func encodeCertificate(certificate *x509.Certificate) []byte {
-
-	return pem.EncodeToMemory(
+func encodeCertificate(certificate *x509.Certificate) ([]byte, error) {
+	return encodePem(
 		&pem.Block{
 			Type:  "CERTIFICATE",
 			Bytes: certificate.Raw,
@@ -211,8 +238,14 @@ func encodeToPEMBase64(input []byte) ([]byte, error) {
 	if _, err := b64.Write(input); err != nil {
 		return nil, err
 	}
-	b64.Close()
-	breaker.Close()
+	err := b64.Close()
+	if err != nil {
+		return nil, err
+	}
+	err = breaker.Close()
+	if err != nil {
+		return nil, err
+	}
 
 	return out.Bytes(), nil
 

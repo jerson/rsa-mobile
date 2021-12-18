@@ -2,6 +2,7 @@ package rsa
 
 import (
 	"crypto/rsa"
+	"fmt"
 	"golang.org/x/crypto/pkcs12"
 
 	"crypto/x509"
@@ -12,36 +13,60 @@ import (
 
 func (r *FastRSA) readPrivateKey(privateKey string) (*rsa.PrivateKey, error) {
 
-	privateBlock, _ := pem.Decode([]byte(privateKey))
-	if privateBlock == nil {
-		return nil, errors.New("invalid private key")
+	block, _ := pem.Decode([]byte(privateKey))
+	if block == nil {
+		return nil, fmt.Errorf("invalid private key")
 	}
 
-	if privateKeyCert, err := x509.ParsePKCS1PrivateKey(privateBlock.Bytes); err == nil {
+	switch block.Type {
+	case string(HeaderPrivateKeyPKCS1):
+		if privateKeyCert, err := x509.ParsePKCS1PrivateKey(block.Bytes); err == nil {
+			return privateKeyCert, nil
+		}
+	case string(HeaderPrivateKeyPKCS8):
+		if privateKeyCert, err := x509.ParsePKCS8PrivateKey(block.Bytes); err == nil {
+			return privateKeyCert.(*rsa.PrivateKey), nil
+		}
+	}
+
+	// TODO remove this in the future because we need to use block.type instead
+	if privateKeyCert, err := x509.ParsePKCS1PrivateKey(block.Bytes); err == nil {
 		return privateKeyCert, nil
 	}
-	if privateKeyCert, err := x509.ParsePKCS8PrivateKey(privateBlock.Bytes); err == nil {
+	if privateKeyCert, err := x509.ParsePKCS8PrivateKey(block.Bytes); err == nil {
 		return privateKeyCert.(*rsa.PrivateKey), nil
 	}
 
-	return nil, errors.New("x509: unknown format")
+	return nil, fmt.Errorf("x509: unknown format for privateKey: %s", block.Type)
 }
 
 func (r *FastRSA) readPublicKey(publicKey string) (*rsa.PublicKey, error) {
 
-	publicBlock, _ := pem.Decode([]byte(publicKey))
-	if publicBlock == nil {
+	block, _ := pem.Decode([]byte(publicKey))
+	if block == nil {
 		return nil, errors.New("invalid public key")
 	}
 
-	if publicKeyCert, err := x509.ParsePKCS1PublicKey(publicBlock.Bytes); err == nil {
+	switch block.Type {
+	case string(HeaderPublicKeyPKCS1):
+		if publicKeyCert, err := x509.ParsePKCS1PublicKey(block.Bytes); err == nil {
+			return publicKeyCert, nil
+		}
+	case string(HeaderPublicKeyPKIX):
+		if publicKeyCert, err := x509.ParsePKIXPublicKey(block.Bytes); err == nil {
+			return publicKeyCert.(*rsa.PublicKey), nil
+		}
+	}
+
+	// TODO remove this in the future because we need to use block.type instead
+	if publicKeyCert, err := x509.ParsePKCS1PublicKey(block.Bytes); err == nil {
 		return publicKeyCert, nil
 	}
-	if publicKeyCert, err := x509.ParsePKIXPublicKey(publicBlock.Bytes); err == nil {
+	if publicKeyCert, err := x509.ParsePKIXPublicKey(block.Bytes); err == nil {
 		return publicKeyCert.(*rsa.PublicKey), nil
 	}
 
-	return nil, errors.New("x509: unknown format")
+	return nil, fmt.Errorf("x509: unknown format for publicKey: %s", block.Type)
 }
 
 func (r *FastRSA) readPKCS12(data, password string) (interface{}, *x509.Certificate, error) {

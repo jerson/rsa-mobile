@@ -30,7 +30,11 @@ func (r *FastRSA) ConvertPKCS12ToKeyPair(pkcs12, password string) (*PKCS12KeyPai
 
 	certificateEncoded := ""
 	if certificate != nil {
-		certificateEncoded = string(encodeCertificate(certificate))
+		certificateBytes, err := encodeCertificate(certificate)
+		if err != nil {
+			return nil, err
+		}
+		certificateEncoded = string(certificateBytes)
 	}
 	keyPair = &PKCS12KeyPair{
 		PrivateKey:  string(privateKey),
