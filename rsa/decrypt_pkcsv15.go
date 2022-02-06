@@ -31,10 +31,8 @@ func (r *FastRSA) decryptPKCS1v15(ciphertext []byte, privateKey string) ([]byte,
 		return nil, err
 	}
 
-	output, err := rsa.DecryptPKCS1v15(rand.Reader, private, ciphertext)
-	if err != nil {
-		return nil, err
-	}
-
-	return output, nil
+	// https://www.rfc-editor.org/rfc/rfc8017#section-7.2.2
+	return processChunk(len(ciphertext), private.PublicKey.Size(), func(i, to int) ([]byte, error) {
+		return rsa.DecryptPKCS1v15(rand.Reader, private, ciphertext[i:to])
+	})
 }

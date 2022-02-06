@@ -31,16 +31,11 @@ func (r *FastRSA) decryptOAEP(ciphertext []byte, label, hashName, privateKey str
 	if err != nil {
 		return nil, err
 	}
-	output, err := rsa.DecryptOAEP(
-		getHashInstance(hashName),
-		rand.Reader,
-		private,
-		ciphertext,
-		[]byte(label),
-	)
-	if err != nil {
-		return nil, err
-	}
 
-	return output, nil
+	hash := getHashInstance(hashName)
+	// https://www.rfc-editor.org/rfc/rfc8017#section-7.1.2
+	return processChunk(len(ciphertext), private.PublicKey.Size(), func(i, to int) ([]byte, error) {
+		return rsa.DecryptOAEP(hash, rand.Reader, private, ciphertext[i:to], []byte(label))
+	})
+
 }

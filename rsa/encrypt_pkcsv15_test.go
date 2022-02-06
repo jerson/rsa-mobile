@@ -21,3 +21,14 @@ func TestFastRSA_EncryptPKCS1v15WrongKey(t *testing.T) {
 	_, err := instance.EncryptPKCS1v15(inputMessage, "nop")
 	assert.Error(t, err)
 }
+
+func TestFastRSA_EncryptPKCS1v15BytesBigMessage(t *testing.T) {
+	instance := NewFastRSA()
+	inputMessage := getBigInputMessage()
+	output, err := instance.EncryptPKCS1v15Bytes([]byte(inputMessage), publicKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log("output:", output)
+}

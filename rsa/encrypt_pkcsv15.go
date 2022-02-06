@@ -27,10 +27,12 @@ func (r *FastRSA) encryptPKCS1v15(message []byte, publicKey string) ([]byte, err
 		return nil, err
 	}
 
-	output, err := rsa.EncryptPKCS1v15(rand.Reader, public, []byte(message))
-	if err != nil {
-		return nil, err
-	}
+	// https://www.rfc-editor.org/rfc/rfc8017#section-7.2.1
+	// M  message to be encrypted, an octet string of length
+	//    mLen, where mLen <= k - 11
+	offset := public.Size() - 11
 
-	return output, nil
+	return processChunk(len(message), offset, func(i, to int) ([]byte, error) {
+		return rsa.EncryptPKCS1v15(rand.Reader, public, message[i:to])
+	})
 }
