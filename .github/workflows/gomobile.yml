@@ -37,10 +37,12 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go env -w GO111MODULE=auto
           cd $HOME && go install golang.org/x/mobile/cmd/gobind@latest || echo "1"
           cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
           cd $HOME && gomobile init
+        env:
+          GOPROXY: https://proxy.golang.org,direct
+          GO111MODULE: auto
       - name: Build
         run: make gomobile_android
         env:
@@ -71,10 +73,12 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go env -w GO111MODULE=auto
           cd $HOME && go install golang.org/x/mobile/cmd/gobind@latest || echo "1"
           cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
           cd $HOME && gomobile init
+        env:
+          GOPROXY: https://proxy.golang.org,direct
+          GO111MODULE: auto
       - name: Build Framework
         run: make gomobile_ios
       - name: Compress Framework
