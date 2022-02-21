@@ -34,10 +34,10 @@ jobs:
           ndk-version: r21d
       - uses: actions/setup-go@v2
         with:
-          go-version: '^1.17'
+          go-version: '^1.16'
       - name: Install Gomobile
         run: |
-          go install golang.org/x/mobile/cmd/gobind@latest || echo "1"
+          go get golang.org/x/mobile/cmd/gobind
           go install golang.org/x/mobile/cmd/gomobile@latest
           gomobile init
         env:
@@ -70,15 +70,15 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
-          go-version: '^1.17'
+          go-version: '^1.16'
       - name: Install Gomobile
         run: |
-          go install golang.org/x/mobile/cmd/gobind@latest || echo "1"
+          go get golang.org/x/mobile/cmd/gobind
           go install golang.org/x/mobile/cmd/gomobile@latest
           gomobile init
         env:
           GOPROXY: https://proxy.golang.org,direct
-          GO111MODULE: "on"
+          GO111MODULE: "auto"
       - name: Build Framework
         run: make gomobile_ios
       - name: Compress Framework
