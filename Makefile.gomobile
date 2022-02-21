@@ -4,7 +4,7 @@ GOMOBILE_PACKAGE?=github.com/jerson/rsa-mobile/rsa
 GOMOBILE_NAME?=Rsa
 
 gomobile:
-	GO111MODULE=auto go install golang.org/x/mobile/cmd/gomobile@latest
+	go install golang.org/x/mobile/cmd/gomobile@latest
 	gomobile init
 
 gomobile_bridge_android:
