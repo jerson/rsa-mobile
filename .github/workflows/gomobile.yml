@@ -37,10 +37,8 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go get golang.org/x/mobile/cmd/gobind
-          go install golang.org/x/mobile/cmd/gobind@latest
-          go install golang.org/x/mobile/cmd/gomobile@latest
-          gomobile init
+          cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
+          cd $HOME && gomobile init
       - name: Build
         run: make gomobile_android
         env:
@@ -71,10 +69,8 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go get golang.org/x/mobile/cmd/gobind
-          go install golang.org/x/mobile/cmd/gobind@latest
-          go install golang.org/x/mobile/cmd/gomobile@latest
-          gomobile init
+          cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
+          cd $HOME && gomobile init
       - name: Build Framework
         run: make gomobile_ios
       - name: Compress Framework
