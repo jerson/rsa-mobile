@@ -36,9 +36,7 @@ jobs:
         with:
           go-version: '^1.17'
       - name: Install Gomobile
-        run: make gomobile
-        env:
-          GOPROXY: https://proxy.golang.org,direct
+        run: cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
       - name: Build
         run: make gomobile_android
         env:
@@ -68,9 +66,7 @@ jobs:
         with:
           go-version: '1.17'
       - name: Install Gomobile
-        run: make gomobile
-        env:
-          GOPROXY: https://proxy.golang.org,direct
+        run: cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
       - name: Build Framework
         run: make gomobile_ios
       - name: Compress Framework
