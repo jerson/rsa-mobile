@@ -37,7 +37,9 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
+          cd $HOME
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          go install golang.org/x/mobile/cmd/gobind@latest
           gomobile init
       - name: Build
         run: make gomobile_android
@@ -69,7 +71,9 @@ jobs:
           go-version: '1.17'
       - name: Install Gomobile
         run: |
-          cd $HOME && go install golang.org/x/mobile/cmd/gomobile@latest
+          cd $HOME
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          go install golang.org/x/mobile/cmd/gobind@latest
           gomobile init
       - name: Build Framework
         run: make gomobile_ios
