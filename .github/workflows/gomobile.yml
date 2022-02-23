@@ -37,10 +37,8 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go get golang.org/x/mobile/cmd/gobind || echo "go get gobind skipped"
-          go get golang.org/x/mobile/cmd/gomobile || echo "go get gomobile skipped"
-          go install golang.org/x/mobile/cmd/gobind@latest || echo "go install gobind skipped"
-          go install golang.org/x/mobile/cmd/gomobile@latest || echo "go install gomobile skipped"
+          go get golang.org/x/mobile/cmd/gobind
+          go get golang.org/x/mobile/cmd/gomobile
           gomobile init
         env:
           GOPROXY: https://proxy.golang.org,direct
@@ -75,10 +73,8 @@ jobs:
           go-version: '^1.17'
       - name: Install Gomobile
         run: |
-          go get golang.org/x/mobile/cmd/gobind || echo "go get gobind skipped"
-          go get golang.org/x/mobile/cmd/gomobile || echo "go get gomobile skipped"
-          go install golang.org/x/mobile/cmd/gobind@latest || echo "go install gobind skipped"
-          go install golang.org/x/mobile/cmd/gomobile@latest || echo "go install gomobile skipped"
+          go get golang.org/x/mobile/cmd/gobind 
+          go get golang.org/x/mobile/cmd/gomobile 
           gomobile init
         env:
           GOPROXY: https://proxy.golang.org,direct
