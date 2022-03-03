@@ -26,11 +26,11 @@ enum Hash : int {
 
 table ConvertJWTRequest {
   data:string;
-  keyId:string;
+  key_id:string;
 }
 
 table ConvertKeyPairRequest {
-  privateKey:string;
+  private_key:string;
   certificate:string;
   password:string;
 }
@@ -41,39 +41,39 @@ table ConvertPKCS12Request {
 }
 
 table ConvertPrivateKeyRequest {
-  privateKey:string;
+  private_key:string;
 }
 
 table ConvertPublicKeyRequest {
-  publicKey:string;
+  public_key:string;
 }
 
 table DecryptOAEPRequest {
   ciphertext:string;
   label:string;
   hash:model.Hash;
-  privateKey:string;
+  private_key:string;
 }
 
 table DecryptOAEPBytesRequest {
   ciphertext:[ubyte];
   label:string;
   hash:model.Hash;
-  privateKey:string;
+  private_key:string;
 }
 
 table DecryptPKCS1v15Request {
   ciphertext:string;
-  privateKey:string;
+  private_key:string;
 }
 
 table DecryptPKCS1v15BytesRequest {
   ciphertext:[ubyte];
-  privateKey:string;
+  private_key:string;
 }
 
 table DecryptPrivateKeyRequest {
-  privateKeyEncrypted:string;
+  private_key_encrypted:string;
   password:string;
 }
 
@@ -81,34 +81,34 @@ table EncryptOAEPRequest {
   message:string;
   label:string;
   hash:model.Hash;
-  publicKey:string;
+  public_key:string;
 }
 
 table EncryptOAEPBytesRequest {
   message:[ubyte];
   label:string;
   hash:model.Hash;
-  publicKey:string;
+  public_key:string;
 }
 
 table EncryptPKCS1v15Request {
   message:string;
-  publicKey:string;
+  public_key:string;
 }
 
 table EncryptPKCS1v15BytesRequest {
   message:[ubyte];
-  publicKey:string;
+  public_key:string;
 }
 
 table EncryptPrivateKeyRequest {
-  privateKey:string;
+  private_key:string;
   password:string;
   cipher:model.PEMCipher;
 }
 
 table GenerateRequest {
-  nBits:int;
+  n_bits:int;
 }
 
 table HashRequest {
@@ -121,67 +121,67 @@ table Base64Request {
 }
 
 table MetadataPrivateKeyRequest {
-  privateKey:string;
+  private_key:string;
 }
 
 table MetadataPublicKeyRequest {
-  publicKey:string;
+  public_key:string;
 }
 
 table SignPKCS1v15Request {
   message:string;
   hash:model.Hash;
-  privateKey:string;
+  private_key:string;
 }
 
 table SignPKCS1v15BytesRequest {
   message:[ubyte];
   hash:model.Hash;
-  privateKey:string;
+  private_key:string;
 }
 
 table SignPSSRequest {
   message:string;
   hash:model.Hash;
-  saltLength:model.SaltLength;
-  privateKey:string;
+  salt_length:model.SaltLength;
+  private_key:string;
 }
 
 table SignPSSBytesRequest {
   message:[ubyte];
   hash:model.Hash;
-  saltLength:model.SaltLength;
-  privateKey:string;
+  salt_length:model.SaltLength;
+  private_key:string;
 }
 
 table VerifyPKCS1v15Request {
   signature:string;
   message:string;
   hash:model.Hash;
-  publicKey:string;
+  public_key:string;
 }
 
 table VerifyPKCS1v15BytesRequest {
   signature:[ubyte];
   message:[ubyte];
   hash:model.Hash;
-  publicKey:string;
+  public_key:string;
 }
 
 table VerifyPSSRequest {
   signature:string;
   message:string;
   hash:model.Hash;
-  saltLength:model.SaltLength;
-  publicKey:string;
+  salt_length:model.SaltLength;
+  public_key:string;
 }
 
 table VerifyPSSBytesRequest {
   signature:[ubyte];
   message:[ubyte];
   hash:model.Hash;
-  saltLength:model.SaltLength;
-  publicKey:string;
+  salt_length:model.SaltLength;
+  public_key:string;
 }
 
 table StringResponse {
@@ -205,8 +205,8 @@ table PKCS12KeyPairResponse {
 }
 
 table PKCS12KeyPair {
-  privateKey:string;
-  publicKey:string;
+  private_key:string;
+  public_key:string;
   certificate:string;
 }
 
@@ -216,8 +216,8 @@ table KeyPairResponse {
 }
 
 table KeyPair {
-  privateKey:string;
-  publicKey:string;
+  private_key:string;
+  public_key:string;
 }
 
 table PrivateKeyInfoResponse {
@@ -226,7 +226,7 @@ table PrivateKeyInfoResponse {
 }
 
 table PrivateKeyInfo {
-  bitLen:long;
+  bit_len:long;
   size:long;
   error:string;
 }
@@ -237,7 +237,7 @@ table PublicKeyInfoResponse {
 }
 
 table PublicKeyInfo {
-  bitLen:long;
+  bit_len:long;
   size:long;
   e:long;
 }
