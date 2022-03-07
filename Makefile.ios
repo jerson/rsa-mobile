@@ -11,7 +11,7 @@ binding_ios_arm64:
 	SDK=iphoneos CC=$(PWD)/clangwrap.sh CGO_CFLAGS="-fembed-bitcode" \
 	GOOS=ios GOARCH=arm64 CGO_ENABLED=1 \
 	make binding
-	# removed redefine because seems inestable with this library
+	# redefinition has been disabled because it seems unstable with this library
 	#objcopy --redefine-syms=ios_syms.txt $(IOS_BINDING_OUTPUT)/arm64.a
 	#nm $(IOS_BINDING_OUTPUT)/arm64.a | grep RSABridgeCall
 
@@ -20,7 +20,7 @@ binding_ios_x86_64:
 	SDK=iphonesimulator CC=$(PWD)/clangwrap.sh \
 	GOOS=ios GOARCH=amd64 CGO_ENABLED=1 \
 	make binding
-	# removed redefine because seems inestable with this library
+	# redefinition has been disabled because it seems unstable with this library
 	#objcopy --redefine-syms=ios_syms.txt $(IOS_BINDING_OUTPUT)/x86_64.a
 	#nm $(IOS_BINDING_OUTPUT)/x86_64.a | grep RSABridgeCall
 
@@ -29,6 +29,6 @@ binding_ios_armv7:
 	SDK=iphoneos CC=$(PWD)/clangwrap.sh CGO_CFLAGS="-fembed-bitcode" \
 	GOOS=darwin GOARCH=arm CGO_ENABLED=1 BINDING_ARGS="-tags ios" \
 	make binding
-	# removed redefine because seems inestable with this library
+	# redefinition has been disabled because it seems unstable with this library
 	#objcopy --redefine-syms=ios_syms.txt $(IOS_BINDING_OUTPUT)/armv7.a
 	#nm $(IOS_BINDING_OUTPUT)/armv7.a | grep RSABridgeCall
