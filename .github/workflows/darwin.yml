@@ -35,7 +35,7 @@ jobs:
           tag: ${{ env.VERSION }}
           overwrite: true
       - if: ${{ env.VERSION=='' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: librsa_bridge_darwin
           path: output.tar.gz

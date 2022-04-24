@@ -27,7 +27,7 @@ jobs:
         run: |
           export PATH="$PATH:/usr/local/opt/binutils/bin"
           make binding_ios_armv7
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: output_binding_arm7
           path: output
@@ -61,7 +61,7 @@ jobs:
           tag: ${{ env.VERSION }}
           overwrite: true
       - if: ${{ env.VERSION=='' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: librsa_bridge_ios
           path: output.tar.gz
