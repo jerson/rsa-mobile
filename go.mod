@@ -6,7 +6,7 @@ require (
 	github.com/google/flatbuffers v2.0.6+incompatible
 	github.com/lestrrat-go/jwx v1.0.2
 	github.com/stretchr/testify v1.5.1
-	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
+	golang.org/x/crypto v0.1.0
 	software.sslmate.com/src/go-pkcs12 v0.0.0-20200408181440-2981468c0ff3
 )
 
