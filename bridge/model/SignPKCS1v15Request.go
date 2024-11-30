@@ -17,11 +17,19 @@ func GetRootAsSignPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *Sign
 	return x
 }
 
+func FinishSignPKCS1v15RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsSignPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *SignPKCS1v15Request {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &SignPKCS1v15Request{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedSignPKCS1v15RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *SignPKCS1v15Request) Init(buf []byte, i flatbuffers.UOffsetT) {

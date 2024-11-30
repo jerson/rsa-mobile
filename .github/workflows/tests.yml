@@ -7,7 +7,7 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -28,7 +28,7 @@ jobs:
 
   finish:
     needs: tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: shogo82148/actions-goveralls@v1
         with:

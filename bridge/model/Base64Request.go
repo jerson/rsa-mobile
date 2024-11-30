@@ -17,11 +17,19 @@ func GetRootAsBase64Request(buf []byte, offset flatbuffers.UOffsetT) *Base64Requ
 	return x
 }
 
+func FinishBase64RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsBase64Request(buf []byte, offset flatbuffers.UOffsetT) *Base64Request {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &Base64Request{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedBase64RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *Base64Request) Init(buf []byte, i flatbuffers.UOffsetT) {

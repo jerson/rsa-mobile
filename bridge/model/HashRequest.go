@@ -17,11 +17,19 @@ func GetRootAsHashRequest(buf []byte, offset flatbuffers.UOffsetT) *HashRequest 
 	return x
 }
 
+func FinishHashRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsHashRequest(buf []byte, offset flatbuffers.UOffsetT) *HashRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &HashRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedHashRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *HashRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

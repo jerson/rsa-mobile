@@ -17,11 +17,19 @@ func GetRootAsDecryptPKCS1v15BytesRequest(buf []byte, offset flatbuffers.UOffset
 	return x
 }
 
+func FinishDecryptPKCS1v15BytesRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsDecryptPKCS1v15BytesRequest(buf []byte, offset flatbuffers.UOffsetT) *DecryptPKCS1v15BytesRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &DecryptPKCS1v15BytesRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedDecryptPKCS1v15BytesRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *DecryptPKCS1v15BytesRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

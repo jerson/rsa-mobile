@@ -17,11 +17,19 @@ func GetRootAsEncryptPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) 
 	return x
 }
 
+func FinishEncryptPrivateKeyRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsEncryptPrivateKeyRequest(buf []byte, offset flatbuffers.UOffsetT) *EncryptPrivateKeyRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &EncryptPrivateKeyRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedEncryptPrivateKeyRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *EncryptPrivateKeyRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

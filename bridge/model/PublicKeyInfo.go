@@ -17,11 +17,19 @@ func GetRootAsPublicKeyInfo(buf []byte, offset flatbuffers.UOffsetT) *PublicKeyI
 	return x
 }
 
+func FinishPublicKeyInfoBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsPublicKeyInfo(buf []byte, offset flatbuffers.UOffsetT) *PublicKeyInfo {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &PublicKeyInfo{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedPublicKeyInfoBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *PublicKeyInfo) Init(buf []byte, i flatbuffers.UOffsetT) {

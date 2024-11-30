@@ -2,6 +2,7 @@ package rsa
 
 import (
 	"fmt"
+
 	"github.com/lestrrat-go/jwx/jwk"
 )
 
@@ -45,18 +46,22 @@ func (r *FastRSA) ConvertJWKToPublicKey(data, keyID string) (string, error) {
 	return string(output), nil
 }
 
-func getJWKKey(keyID string, set *jwk.Set) (interface{}, error) {
+func getJWKKey(keyID string, set jwk.Set) (interface{}, error) {
 	var key interface{}
 	if keyID != "" {
-		keys := set.LookupKeyID(keyID)
-		if len(keys) == 0 {
+		keyFound, ok := set.LookupKeyID(keyID)
+		if !ok {
 			return nil, fmt.Errorf("key not found: %s", keyID)
 		}
 
-		err := keys[0].Raw(&key)
+		err := keyFound.Raw(&key)
 		return key, err
 	} else {
-		err := set.Keys[0].Raw(&key)
+		keyFound, ok := set.Get(0)
+		if !ok {
+			return nil, fmt.Errorf("no key found")
+		}
+		err := keyFound.Raw(&key)
 		return key, err
 	}
 }

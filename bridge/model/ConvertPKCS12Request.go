@@ -17,11 +17,19 @@ func GetRootAsConvertPKCS12Request(buf []byte, offset flatbuffers.UOffsetT) *Con
 	return x
 }
 
+func FinishConvertPKCS12RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsConvertPKCS12Request(buf []byte, offset flatbuffers.UOffsetT) *ConvertPKCS12Request {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ConvertPKCS12Request{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedConvertPKCS12RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ConvertPKCS12Request) Init(buf []byte, i flatbuffers.UOffsetT) {
