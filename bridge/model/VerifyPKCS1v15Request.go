@@ -17,11 +17,19 @@ func GetRootAsVerifyPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *Ve
 	return x
 }
 
+func FinishVerifyPKCS1v15RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsVerifyPKCS1v15Request(buf []byte, offset flatbuffers.UOffsetT) *VerifyPKCS1v15Request {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &VerifyPKCS1v15Request{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedVerifyPKCS1v15RequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *VerifyPKCS1v15Request) Init(buf []byte, i flatbuffers.UOffsetT) {

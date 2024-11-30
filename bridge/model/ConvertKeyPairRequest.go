@@ -17,11 +17,19 @@ func GetRootAsConvertKeyPairRequest(buf []byte, offset flatbuffers.UOffsetT) *Co
 	return x
 }
 
+func FinishConvertKeyPairRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsConvertKeyPairRequest(buf []byte, offset flatbuffers.UOffsetT) *ConvertKeyPairRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ConvertKeyPairRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedConvertKeyPairRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ConvertKeyPairRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

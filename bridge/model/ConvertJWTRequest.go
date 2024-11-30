@@ -17,11 +17,19 @@ func GetRootAsConvertJWTRequest(buf []byte, offset flatbuffers.UOffsetT) *Conver
 	return x
 }
 
+func FinishConvertJWTRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsConvertJWTRequest(buf []byte, offset flatbuffers.UOffsetT) *ConvertJWTRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &ConvertJWTRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedConvertJWTRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *ConvertJWTRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

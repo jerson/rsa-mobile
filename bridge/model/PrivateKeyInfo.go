@@ -17,11 +17,19 @@ func GetRootAsPrivateKeyInfo(buf []byte, offset flatbuffers.UOffsetT) *PrivateKe
 	return x
 }
 
+func FinishPrivateKeyInfoBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsPrivateKeyInfo(buf []byte, offset flatbuffers.UOffsetT) *PrivateKeyInfo {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &PrivateKeyInfo{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedPrivateKeyInfoBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *PrivateKeyInfo) Init(buf []byte, i flatbuffers.UOffsetT) {

@@ -17,11 +17,19 @@ func GetRootAsDecryptOAEPRequest(buf []byte, offset flatbuffers.UOffsetT) *Decry
 	return x
 }
 
+func FinishDecryptOAEPRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsDecryptOAEPRequest(buf []byte, offset flatbuffers.UOffsetT) *DecryptOAEPRequest {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &DecryptOAEPRequest{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedDecryptOAEPRequestBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *DecryptOAEPRequest) Init(buf []byte, i flatbuffers.UOffsetT) {

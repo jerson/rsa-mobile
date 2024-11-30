@@ -1,11 +1,11 @@
 .PHONY: flatbuffers
-flatbuffers: flatbuffers_dart flatbuffers_go flatbuffers_js
+flatbuffers: flatbuffers_dart flatbuffers_go flatbuffers_ts
 
 flatbuffers_deps:
 	cd /tmp && \
 	git clone https://github.com/google/flatbuffers.git -b master && \
     cd flatbuffers && \
-	git checkout v2.0.6 && \
+	git checkout v24.3.25 && \
     cmake -G "Unix Makefiles" && \
     make && \
     sudo make install && \

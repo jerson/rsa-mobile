@@ -17,11 +17,19 @@ func GetRootAsPKCS12KeyPairResponse(buf []byte, offset flatbuffers.UOffsetT) *PK
 	return x
 }
 
+func FinishPKCS12KeyPairResponseBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsPKCS12KeyPairResponse(buf []byte, offset flatbuffers.UOffsetT) *PKCS12KeyPairResponse {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &PKCS12KeyPairResponse{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedPKCS12KeyPairResponseBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *PKCS12KeyPairResponse) Init(buf []byte, i flatbuffers.UOffsetT) {

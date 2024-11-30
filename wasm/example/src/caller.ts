@@ -1,6 +1,5 @@
 import * as flatbuffers from 'flatbuffers';
-import {GenerateRequest} from "../libs/model/generate-request";
-import {KeyPairResponse} from "../libs/model/key-pair-response";
+import {GenerateRequest, KeyPairResponse} from "../libs/model";
 
 export const GenerateSample = async () => {
 
