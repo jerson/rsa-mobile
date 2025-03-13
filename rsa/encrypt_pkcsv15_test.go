@@ -1,8 +1,9 @@
 package rsa
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFastRSA_EncryptPKCS1v15(t *testing.T) {
