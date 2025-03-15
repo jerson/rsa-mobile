@@ -1,11 +1,10 @@
 module github.com/jerson/rsa-mobile
 
-go 1.22.0
-
-toolchain go1.23.3
+go 1.24.1
 
 require (
 	github.com/google/flatbuffers v24.3.25+incompatible
+	github.com/jerson/helpers-mobile v0.0.0-20250315011617-729f4804866f
 	github.com/lestrrat-go/jwx v1.2.30
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/crypto v0.29.0
@@ -23,5 +22,6 @@ require (
 	github.com/lestrrat-go/option v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
