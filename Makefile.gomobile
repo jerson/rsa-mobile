@@ -1,5 +1,5 @@
 GOMOBILE_BRIDGE_PACKAGE?=github.com/jerson/rsa-mobile/bridge
-GOMOBILE_BRIDGE_NAME?=RsaBridge
+GOMOBILE_BRIDGE_NAME?=RSABridge
 GOMOBILE_PACKAGE?=github.com/jerson/rsa-mobile/rsa
 GOMOBILE_NAME?=Rsa
 
